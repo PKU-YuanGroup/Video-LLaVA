@@ -1,1 +1,1 @@
-Video-LLaVA: Improved LLaVA with United Visual Representation.
+Video-LLaVA: Improved LLaVA with United Visual Representation
