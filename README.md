@@ -60,6 +60,7 @@ We make multi-view enhancements to language. We produce multi-view description t
 ```bash
 uvicorn llava.serve.gradio_web_server:app
 ```
+![Funny GIF](assets/gradio.gif)
 
 * **CLI Inference**
 ```bash
