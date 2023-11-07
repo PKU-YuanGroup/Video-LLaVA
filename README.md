@@ -56,26 +56,27 @@ We make multi-view enhancements to language. We produce multi-view description t
 
 ## 🤗 Demo
 
-* **Gradio Web UI** Highly recommend trying out our web demo, which incorporates all features currently supported by LanguageBind.
+* **Gradio Web UI**
+Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by Video-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) in Huggingface Spaces.
 ```bash
 uvicorn llava.serve.gradio_web_server:app
 ```
-![gradio GIF](assets/gradio.gif)
+<img src="assets/gradio.gif"/>
 
 * **CLI Inference**
 ```bash
 python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLaVA-Video/cat.mp4" --load-4bit
 ```
-![videocli GIF](assets/videocli.gif)
+
+<img src="assets/videocli.gif" width="500" />
+
 ```bash
 python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLaVA-Video/cat.mp4" --load-4bit
 ```
-![imagecli GIF](assets/imagecli.gif)
 
-* **Online HuggingFace** We provide the [online demo](https://huggingface.co/spaces/LanguageBind/LanguageBind) in Huggingface Spaces. In this demo, you can calculate the similarity of modalities to language, such as audio-to-language, video-to-language, and depth-to-image.
-<p align="center">
-<img src="assets/demo.png" width=100%>
-</p>
+<img src="assets/imagecli.gif" width="500" />
+
+
 
 
 
