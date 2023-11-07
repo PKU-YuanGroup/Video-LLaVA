@@ -27,34 +27,21 @@
 [![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/Video-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
-
-
 ## 📰 News
-* **[2023.10.04]**  [Demo](https://github.com/PKU-YuanGroup/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.11.14]**  [Demo](https://github.com/PKU-YuanGroup/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
-### 💡 High performance, but NO intermediate modality required
-LanguageBind is a **language-centric** multimodal pretraining approach, **taking the language as the bind across different modalities** because the language modality is well-explored and contains rich semantics. 
-* The following first figure shows the architecture of LanguageBind. LanguageBind can be easily extended to segmentation, detection tasks, and potentially to unlimited modalities. 
+### 💡 Simple baseline, learning from uniform visual representations
+With simple modifications to LLaVA and **the binding of unified visual representations to the language feature space**, we enable an LLM to perform visual reasoning capabilities on both images and videos simultaneously.
 
-### ⚡️ A multimodal, fully aligned and voluminous dataset
-We propose **VIDAL-10M**, **10 Million data** with **V**ideo, **I**nfrared, **D**epth, **A**udio and their corresponding **L**anguage, which greatly expands the data beyond visual modalities.
-* The second figure shows our proposed VIDAL-10M dataset, which includes five modalities: video, infrared, depth, audio, and language.
-
-### 🔥 Multi-view enhanced description for training
-We make multi-view enhancements to language. We produce multi-view description that combines **meta-data**, **spatial**, and **temporal** to greatly enhance the semantic information of the language. In addition we further **enhance the language with ChatGPT** to create a good semantic space for each modality aligned language.
-
-<p align="center">
-<img src="assets/languagebind.jpg" width=100%>
-</p>
-<p align="center">
-<img src="assets/iclr_dataset_sample.jpg" width=99%>
-</p>
+### 🔥 High performance, complementary learning with video and image
+Extensive experiments demonstrate **the complementarity of modalities**, showcasing significant superiority when compared to models specifically designed for either images or videos.
 
 ## 🤗 Demo
 
 * **Gradio Web UI**
+
 Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by Video-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) in Huggingface Spaces.
 ```bash
 uvicorn llava.serve.gradio_web_server:app
@@ -62,6 +49,7 @@ uvicorn llava.serve.gradio_web_server:app
 <img src="assets/gradio.gif"/>
 
 * **CLI Inference**
+
 ```bash
 python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLaVA-Video/cat.mp4" --load-4bit
 ```
@@ -74,26 +62,18 @@ python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLa
 
 <img src="assets/imagecli.gif" width="500" />
 
-
-
-
-
 ## 🚀 Main Results
 
-### Video-Language
-LanguageBind achieves **state-of-the-art (SOTA) performance on four datasets**, surpassing InterVideo by 1.9% on MSR-VTT, 8.8% on MSVD, 6.3% on DiDeMo, and 4.4% on ActivityNet. It is worth noting that InterVideo employs more extensive training data, signifying that LanguageBind represents an efficient pretraining method.
+### Image understanding
+Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
 <img src="assets/result1.jpg" width=80%>
 </p>
 
-### Multiple Modalities
-Video-Language, Infrared-Language, Depth-Language, and Audio-Language zero-shot classification. We report top-1 accuracy across all the datasets.
+### Video understanding
+Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
-<img src="assets/res1.jpg" width=80%>
-</p>
-We report text-to-audio results for retrieval.
-<p align="left">
-<img src="assets/res2.jpg" width=35%>
+<img src="assets/result1.jpg" width=80%>
 </p>
 
 ## 🛠️ Requirements and Installation
@@ -104,7 +84,13 @@ We report text-to-audio results for retrieval.
 ```bash
 git clone https://github.com/PKU-YuanGroup/Video-LLaVA
 cd Video-LLaVA
-pip install -r requirements.txt
+conda create -n videollava python=3.10 -y
+conda activate videollava
+pip install --upgrade pip  # enable PEP 660 support
+pip install -e .
+pip install -e ".[train]"
+pip install flash-attn --no-build-isolation
+pip install decord opencv-python git+https://github.com/facebookresearch/pytorchvideo.git@28fe037d212663c6a24f373b94cc5d478c8c1a1d
 ```
 
 ## 🤖 API
@@ -115,14 +101,15 @@ pip install -r requirements.txt
 The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
 
 ## 👍 Acknowledgement
-* [OpenCLIP](https://github.com/mlfoundations/open_clip) An open source pretraining framework.
-* [CLIP4Clip](https://github.com/ArrowLuo/CLIP4Clip) An open source Video-Text retrieval framework.
-* [sRGB-TIR](https://github.com/rpmsnu/sRGB-TIR) An open source framework to generate infrared (thermal) images.
-* [GLPN](https://github.com/vinvino02/GLPDepth) An open source framework to generate depth images.
+* [LLaVA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
+* [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT) Great job contributing the evaluation code and dataset.
+
+## 🤝 Related Projects
+* [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) An open source language-based retrieval framework.
 
 ## 🔒 License
-* The majority of this project is released under the MIT license as found in the [LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE) file.
-* The dataset of this project is released under the CC-BY-NC 4.0 license as found in the [DATASET_LICENSE](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/DATASET_LICENSE) file. 
+* The majority of this project is released under the Apache 2.0 license as found in the [LICENSE](https://github.com/PKU-YuanGroup/Video-LLaVA/blob/main/LICENSE) file.
+* The service is a research preview intended for non-commercial use only, subject to the model [License](https://github.com/facebookresearch/llama/blob/main/MODEL_CARD.md) of LLaMA, [Terms of Use](https://openai.com/policies/terms-of-use) of the data generated by OpenAI, and [Privacy Practices](https://chrome.google.com/webstore/detail/sharegpt-share-your-chatg/daiacboceoaocpibfodeljbdfacokfjb) of ShareGPT. Please contact us if you find any potential violation.
 
 ## ✏️ Citation
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
@@ -141,4 +128,4 @@ If you find our paper and code useful in your research, please consider giving a
 
 ## ✨ Star History
 
-[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/LanguageBind&type=Date)](https://star-history.com/#PKU-YuanGroup/LanguageBind&Date)
+[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/Video-LLaVA&type=Date)](https://star-history.com/#PKU-YuanGroup/Video-LLaVA&Date)
