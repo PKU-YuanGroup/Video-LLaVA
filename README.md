@@ -3,20 +3,18 @@
 <p align="center">
     <img src="https://z1.ax1x.com/2023/11/07/pil4sqH.png" width="150" style="margin-bottom: 0.2;"/>
 <p>
-<h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">Video-LLaVA: Improved LLaVA with United Visual Representation</a></h2>
+<h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">Video-LLaVA: Learning United Visual Representation by Alignment Before Projection</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
 <!--
 <p align="center">
 📖 <a href="https://arxiv.org/pdf/2310.01852.pdf">Paper</a>
     &nbsp｜&nbsp
-🤗<a href="https://huggingface.co/spaces/LanguageBind/LanguageBind">Demo</a>
+🤗<a href="https://huggingface.co/spaces/LanguageBind/Video-LLaVA">Demo</a>
     &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/LanguageBind/tree/main#-api">API</a>
+🤖 <a href="https://github.com/PKU-YuanGroup/Video-LLaVA/tree/main#-api">API</a>
     &nbsp&nbsp|&nbsp&nbsp
-📄<a href="https://github.com/PKU-YuanGroup/LanguageBind#%EF%B8%8F-training--validating">Instruction</a>
-    &nbsp｜
-💥<a href="https://github.com/PKU-YuanGroup/LanguageBind#-vidal-10m">Datasets</a>
+📄<a href="https://github.com/PKU-YuanGroup/Video-LLaVA#%EF%B8%8F-training--validating">Instruction</a>
 </p>
 -->
 
@@ -28,7 +26,7 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
 ## 📰 News
-* **[2023.11.14]**  [Demo](https://github.com/PKU-YuanGroup/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.11.14]**  🤗[Demo](https://github.com/PKU-YuanGroup/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
@@ -53,13 +51,13 @@ uvicorn llava.serve.gradio_web_server:app
 * **CLI Inference**
 
 ```bash
-python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLaVA-Video/cat.mp4" --load-4bit
+python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "path/to/your/video.mp4" --load-4bit
 ```
 
 <img src="assets/videocli.gif" width="500" />
 
 ```bash
-python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLaVA-Video/cat.mp4" --load-4bit
+python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "path/to/your/video.mp4" --load-4bit
 ```
 
 <img src="assets/imagecli.gif" width="500" />
@@ -69,13 +67,13 @@ python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "D:/LLa
 ### Image understanding
 Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
-<img src="assets/result1.jpg" width=80%>
+<img src="assets/res_img.jpg" width=80%>
 </p>
 
 ### Video understanding
 Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
-<img src="assets/result1.jpg" width=80%>
+<img src="assets/res_vi.jpg" width=80%>
 </p>
 
 ## 🛠️ Requirements and Installation
@@ -96,7 +94,7 @@ pip install decord opencv-python git+https://github.com/facebookresearch/pytorch
 ```
 
 ## 🤖 API
-**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/LanguageBind_Thermal```) from the model hub on Huggingface or on local, you can use the following code snippets.
+**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/Video-LLaVA```) from the model hub on Huggingface or on local, you can use the following code snippets.
 
 
 ## 🗝️ Training & Validating
