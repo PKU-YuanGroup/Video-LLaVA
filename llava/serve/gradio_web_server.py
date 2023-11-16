@@ -168,7 +168,7 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
             )
 
         with gr.Column(scale=7):
-            chatbot = gr.Chatbot(label="Video-LLaVA", bubble_full_width=True).style(height=800)
+            chatbot = gr.Chatbot(label="Video-LLaVA", bubble_full_width=True).style(height=850)
             with gr.Row():
                 with gr.Column(scale=8):
                     textbox.render()
@@ -218,10 +218,6 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                 [
                     f"{cur_dir}/examples/sample_demo_9.mp4",
                     "Describe the video.",
-                ],
-                [
-                    f"{cur_dir}/examples/sample_demo_16.mp4",
-                    "What are the people doing in the video?",
                 ],
                 [
                     f"{cur_dir}/examples/sample_demo_22.mp4",
