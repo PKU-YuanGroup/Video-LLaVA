@@ -1,7 +1,7 @@
 
 
 <p align="center">
-    <img src="https://z1.ax1x.com/2023/11/07/pil4sqH.png" width="150" style="margin-bottom: 0.2;"/><img src="assets/sota.jpg" width="450" style="margin-bottom: 0.2;"/>
+    <img src="https://z1.ax1x.com/2023/11/07/pil4sqH.png" width="150" style="margin-bottom: 0.2;"/>
 <p>
 <h2 align="center"> <a href="https://arxiv.org/pdf/2310.01852.pdf">Video-LLaVA: Improved LLaVA with United Visual Representation</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
@@ -37,6 +37,8 @@ With simple modifications to LLaVA and **the binding of unified visual represent
 
 ### 🔥 High performance, complementary learning with video and image
 Extensive experiments demonstrate **the complementarity of modalities**, showcasing significant superiority when compared to models specifically designed for either images or videos.
+
+<img src="assets/main.jpg"/>
 
 ## 🤗 Demo
 
