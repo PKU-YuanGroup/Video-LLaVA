@@ -216,10 +216,6 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                     "Can you identify any safety hazards in this video?"
                 ],
                 [
-                    f"{cur_dir}/examples/sample_demo_5.mp4",
-                    "What is this video about?",
-                ],
-                [
                     f"{cur_dir}/examples/sample_demo_9.mp4",
                     "Describe the video.",
                 ],
