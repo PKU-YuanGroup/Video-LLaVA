@@ -11,22 +11,22 @@ We also provide the processed data as follows.
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
-        <th>Datasets</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
+        <th>Datasets</th><th>Baidu Yun</th>
     </tr>
     <tr align="center">
-        <td>Image pretraining</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
-    </tr>
-    </tr>
-    <tr align="center">
-        <td>Image tuning</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>Image pretraining</td><td><a href="">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>Video pretraining</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>Image tuning</td><td><a href="">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>Video tuning</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>Video pretraining</td><td><a href="">Link</a></td>
+    </tr>
+    </tr>
+    <tr align="center">
+        <td>Video tuning</td><td><a href="">Link</a></td>
     </tr>
 </table>
 </div>
@@ -50,19 +50,19 @@ DATA_ROOT
         <th>Datasets</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
     </tr>
     <tr align="center">
-        <td>Activitynet_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>Activitynet_Zero_Shot_QA</td><td><a href="">Link</a></td><td>-</td><td>-</td>
     </tr>
     </tr>
     <tr align="center">
-        <td>MSRVTT_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>MSRVTT_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td>-</td>
     </tr>
     </tr>
     <tr align="center">
-        <td>MSVD_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>MSVD_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/8B0D01747D8AA65534820B7E60CBFEFC">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>TGIF_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="">Link</a></td>
+        <td>TGIF_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/B9AB387EFE8817158F181FF3D7A97163">Link</a></td>
     </tr>
 </table>
 </div>
