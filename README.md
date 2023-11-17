@@ -55,8 +55,11 @@ Highly recommend trying out our web demo by the following command, which incorpo
 python -m  llava.serve.gradio_web_server
 ```
 
-<video src='assets/demo.mp4' width=180/>
-<img src="assets/gradio.gif"/>
+
+https://github.com/PKU-YuanGroup/Video-LLaVA/assets/62638829/0dc9647d-49a3-4994-913a-66329089a346
+
+
+
 
 * **CLI Inference**
 
