@@ -55,7 +55,7 @@ DATA_ROOT
     </tr>
     </tr>
     <tr align="center">
-        <td>MSRVTT_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="https://drive.google.com/file/d/1yXh9lz7flQ5Ui2IRSd6Qi6RqSEeUJwl3/view?usp=drive_link">Link</a></td><td>-</td>
+        <td>MSRVTT_Zero_Shot_QA</td><td><a href="https://pan.baidu.com/s/1QHUtwHXm4Vc-Wc12XFCFsA?pwd=1rj8">Link</a></td><td><a href="https://drive.google.com/file/d/1yXh9lz7flQ5Ui2IRSd6Qi6RqSEeUJwl3/view?usp=drive_link">Link</a></td><td>-</td>
     </tr>
     </tr>
     <tr align="center">
