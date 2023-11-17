@@ -116,8 +116,7 @@ def clear_history(state, state_):
 
 
 conv_mode = "llava_v1"
-model_path = 'llava-v1.5-7b-imvi-A'
-# model_path = 'LanguageBind/Video-LLaVA'
+model_path = 'LanguageBind/Video-LLaVA-7B'
 device = 'cuda'
 load_8bit = False
 load_4bit = True
