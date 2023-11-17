@@ -26,15 +26,17 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
 ## 📰 News
-* **[2023.11.14]**  🤗[Demo](https://github.com/PKU-YuanGroup/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.11.18]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
-### 💡 Simple baseline, learning from uniform visual representations
-With simple modifications to LLaVA and **the binding of unified visual representations to the language feature space**, we enable an LLM to perform visual reasoning capabilities on both images and videos simultaneously.
+Video-LLaVA exhibits remarkable interactive capabilities between images and videos, despite the absence of image-video pairs in the dataset.
+
+### 💡 Simple baseline, learning united visual representation by alignment before projection
+With **the binding of unified visual representations to the language feature space**, we enable an LLM to perform visual reasoning capabilities on both images and videos simultaneously.
 
 ### 🔥 High performance, complementary learning with video and image
-Extensive experiments demonstrate **the complementarity of modalities**, showcasing significant superiority when compared to models specifically designed for either images or videos.
+Extensive experiments demonstrate **the complementarity of modalities**, showcasing significant superiority when compared to models specifically designed for either images or videos. 
 
 <img src="assets/main.jpg"/>
 
