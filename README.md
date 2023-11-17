@@ -25,6 +25,12 @@
 [![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/Video-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=one-for-all-video-conversation-is-feasible) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=one-for-all-video-conversation-is-feasible) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=one-for-all-video-conversation-is-feasible) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-activitynet-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet-qa?p=one-for-all-video-conversation-is-feasible) <br>
+
 ## 📰 News
 * **[2023.11.18]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
