@@ -93,10 +93,6 @@ pip install flash-attn --no-build-isolation
 pip install decord opencv-python git+https://github.com/facebookresearch/pytorchvideo.git@28fe037d212663c6a24f373b94cc5d478c8c1a1d
 ```
 
-## 🤖 API
-**We open source all modalities preprocessing code.** If you want to load the model (e.g. ```LanguageBind/Video-LLaVA```) from the model hub on Huggingface or on local, you can use the following code snippets.
-
-
 ## 🗝️ Training & Validating
 The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
 
