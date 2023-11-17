@@ -55,10 +55,7 @@ Highly recommend trying out our web demo by the following command, which incorpo
 python -m  llava.serve.gradio_web_server
 ```
 
-<video width="320" height="240" controls>
-    <source src="assets/demo.mp4" type="video/mp4">
-</video>
-<video src="assets/demo.mp4" controls="controls" width="500" height="300"></video>
+<video src='assets/demo.mp4' width=180/>
 <img src="assets/gradio.gif"/>
 
 * **CLI Inference**
