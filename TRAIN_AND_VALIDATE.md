@@ -5,6 +5,7 @@
 - The images tuning dataset is from [LLaVA](https://github.com/haotian-liu/LLaVA).
 - The videos pretraining dataset is from [Valley](https://github.com/RupertLuo/Valley).
 - The videos tuning dataset is from [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT).
+- Download the training annotations. You can download from [Baidu Yun](), [Google Cloud]() or [Peking University Yun]()
 
 
 We also provide the processed data as follows.
@@ -54,11 +55,11 @@ DATA_ROOT
     </tr>
     </tr>
     <tr align="center">
-        <td>MSRVTT_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td>-</td>
+        <td>MSRVTT_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="https://drive.google.com/file/d/1yXh9lz7flQ5Ui2IRSd6Qi6RqSEeUJwl3/view?usp=drive_link">Link</a></td><td>-</td>
     </tr>
     </tr>
     <tr align="center">
-        <td>MSVD_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/8B0D01747D8AA65534820B7E60CBFEFC">Link</a></td>
+        <td>MSVD_Zero_Shot_QA</td><td><a href="https://pan.baidu.com/s/1PJSHkjHG2BPl_ddUnBj9AA?pwd=jj34">Link</a></td><td><a href="https://drive.google.com/file/d/1_q4eiSdb7i8P3Hmh4lCfgY1uBGyzU_7X/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/8B0D01747D8AA65534820B7E60CBFEFC">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
