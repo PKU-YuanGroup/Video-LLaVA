@@ -5,14 +5,14 @@
 - The images tuning dataset is from [LLaVA](https://github.com/haotian-liu/LLaVA).
 - The videos pretraining dataset is from [Valley](https://github.com/RupertLuo/Valley).
 - The videos tuning dataset is from [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT).
-- Download the training annotations. You can download from [Baidu Yun](), [Google Cloud]() or [Peking University Yun]()
+- Download the training annotations. You can download from [Baidu Disk](https://pan.baidu.com/s/1BipI3_f--GRWqaWTGYp-Jg?pwd=wkl0), [Google Disk](https://drive.google.com/file/d/11-1NBXNeiNQE2wPbue1dFph_Na_EHRYG/view?usp=drive_link) or [Peking University Disk](https://disk.pku.edu.cn:443/link/84783AB54553DFA150C1C5E82C16EB29)
 
 
 We also provide the processed data as follows.
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
-        <th>Datasets</th><th>Baidu Yun</th>
+        <th>Datasets</th><th>Baidu Disk</th>
     </tr>
     <tr align="center">
         <td>Image pretraining</td><td><a href="">Link</a></td>
@@ -48,7 +48,7 @@ DATA_ROOT
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
-        <th>Datasets</th><th>Baidu Yun</th><th>Google Cloud</th><th>Peking University Yun</th>
+        <th>Datasets</th><th>Baidu Disk</th><th>Google Disk</th><th>Peking University Disk</th>
     </tr>
     <tr align="center">
         <td>Activitynet_Zero_Shot_QA</td><td><a href="">Link</a></td><td>-</td><td>-</td>
