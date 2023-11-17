@@ -65,13 +65,11 @@ python -m llava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --video-fil
 ## 🚀 Main Results
 
 ### Image understanding
-Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
 <img src="assets/res_img.jpg" width=80%>
 </p>
 
 ### Video understanding
-Video-LLaVA achieves **state-of-the-art (SOTA) performance on four datasets**, 
 <p align="left">
 <img src="assets/res_vi.jpg" width=80%>
 </p>
