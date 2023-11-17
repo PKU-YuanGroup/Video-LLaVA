@@ -62,7 +62,7 @@ DATA_ROOT
     </tr>
     </tr>
     <tr align="center">
-        <td>TGIF_Zero_Shot_QA</td><td><a href="">Link</a></td><td><a href="https://drive.google.com/file/d/1so6L9rg_gdC8Segur7rKML-ffd4Ix_I6/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/B9AB387EFE8817158F181FF3D7A97163">Link</a></td>
+        <td>TGIF_Zero_Shot_QA</td><td><a href="https://pan.baidu.com/s/11ubtWbTtubyBmN9UPvAyow?pwd=98yr">Link</a></td><td><a href="https://drive.google.com/file/d/1so6L9rg_gdC8Segur7rKML-ffd4Ix_I6/view?usp=drive_link">Link</a></td><td><a href="https://disk.pku.edu.cn:443/link/B9AB387EFE8817158F181FF3D7A97163">Link</a></td>
     </tr>
 </table>
 </div>
