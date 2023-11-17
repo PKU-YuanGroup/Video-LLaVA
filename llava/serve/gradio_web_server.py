@@ -54,19 +54,33 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
 
     # images_tensor = [[], []]
     image_processor = handler.image_processor
-    if os.path.exists(image1):
+    if os.path.exists(image1) and not os.path.exists(video):
         tensor = image_processor.preprocess(image1, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
         images_tensor[0] = images_tensor[0] + [tensor]
         images_tensor[1] = images_tensor[1] + ['image']
     video_processor = handler.video_processor
-    if os.path.exists(video):
+    if not os.path.exists(image1) and os.path.exists(video):
         tensor = video_processor(video, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
         images_tensor[0] = images_tensor[0] + [tensor]
         images_tensor[1] = images_tensor[1] + ['video']
+    if os.path.exists(image1) and os.path.exists(video):
+        tensor = video_processor(video, return_tensors='pt')['pixel_values'][0]
+        # print(tensor.shape)
+        tensor = tensor.to(handler.model.device, dtype=dtype)
+        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor[1] = images_tensor[1] + ['video']
+        
+        
+        tensor = image_processor.preprocess(image1, return_tensors='pt')['pixel_values'][0]
+        # print(tensor.shape)
+        tensor = tensor.to(handler.model.device, dtype=dtype)
+        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor[1] = images_tensor[1] + ['image']
+        
 
 
     if os.path.exists(image1) and not os.path.exists(video):
@@ -74,7 +88,7 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
     if not os.path.exists(image1) and os.path.exists(video):
         text_en_in = DEFAULT_X_TOKEN['VIDEO'] + '\n' + text_en_in
     if os.path.exists(image1) and os.path.exists(video):
-        text_en_in = DEFAULT_X_TOKEN['IMAGE'] + '\n' + text_en_in + '\n' + DEFAULT_X_TOKEN['VIDEO']
+        text_en_in = DEFAULT_X_TOKEN['VIDEO'] + '\n' + text_en_in + '\n' + DEFAULT_X_TOKEN['IMAGE']
 
     text_en_out, state_ = handler.generate(images_tensor, text_en_in, first_run=first_run, state=state_)
     state_.messages[-1] = (state_.roles[1], text_en_out)
@@ -95,7 +109,6 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
     state.append_message(state.roles[1], textbox_out)
 
     return (state, state_, state.to_gradio_chatbot(), False, gr.update(value=None, interactive=True), images_tensor, gr.update(value=image1 if os.path.exists(image1) else None, interactive=True), gr.update(value=video if os.path.exists(video) else None, interactive=True))
-
 
 def regenerate(state, state_):
     state.messages.pop(-1)
@@ -156,7 +169,7 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                     ],
                     [
                         f"{cur_dir}/examples/glove.jpg",
-                        "What are the things I should be cautious about when I visit here?",
+                        "What happens when the glove drops?",
                     ],
                     [
                         f"{cur_dir}/examples/desert.jpg",
@@ -173,15 +186,15 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                     textbox.render()
                 with gr.Column(scale=1, min_width=50):
                     submit_btn = gr.Button(
-                        value="Send", variant="primary", interactive=False
+                        value="Send", variant="primary", interactive=True
                     )
             with gr.Row(elem_id="buttons") as button_row:
-                upvote_btn = gr.Button(value="👍  Upvote", interactive=False)
-                downvote_btn = gr.Button(value="👎  Downvote", interactive=False)
-                flag_btn = gr.Button(value="⚠️  Flag", interactive=False)
+                upvote_btn = gr.Button(value="👍  Upvote", interactive=True)
+                downvote_btn = gr.Button(value="👎  Downvote", interactive=True)
+                flag_btn = gr.Button(value="⚠️  Flag", interactive=True)
                 # stop_btn = gr.Button(value="⏹️  Stop Generation", interactive=False)
-                regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
-                clear_btn = gr.Button(value="🗑️  Clear history", interactive=False)
+                regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=True)
+                clear_btn = gr.Button(value="🗑️  Clear history", interactive=True)
 
     with gr.Row():
         gr.Examples(

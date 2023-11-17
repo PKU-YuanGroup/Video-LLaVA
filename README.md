@@ -44,20 +44,20 @@ Extensive experiments demonstrate **the complementarity of modalities**, showcas
 
 Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by Video-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) in Huggingface Spaces.
 ```bash
-uvicorn llava.serve.gradio_web_server:app
+python -m  llava.serve.gradio_web_server
 ```
 <img src="assets/gradio.gif"/>
 
 * **CLI Inference**
 
 ```bash
-python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "path/to/your/video.mp4" --load-4bit
+python -m llava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --image-file "path/to/your/image.jpg" --load-4bit
 ```
 
 <img src="assets/videocli.gif" width="500" />
 
 ```bash
-python -m llava.serve.cli --model-path llava-v1.5-7b-imvi-A --video-file "path/to/your/video.mp4" --load-4bit
+python -m llava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --video-file "path/to/your/video.mp4" --load-4bit
 ```
 
 <img src="assets/imagecli.gif" width="500" />
