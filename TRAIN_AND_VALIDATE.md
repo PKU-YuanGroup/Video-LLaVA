@@ -51,7 +51,7 @@ DATA_ROOT
         <th>Datasets</th><th>Baidu Disk</th><th>Google Disk</th><th>Peking University Disk</th>
     </tr>
     <tr align="center">
-        <td>Activitynet_Zero_Shot_QA</td><td><a href="">Link</a></td><td>-</td><td>-</td>
+        <td>Activitynet_Zero_Shot_QA</td><td><a href="https://pan.baidu.com/s/1d_AVx9Mz_57nA3exhQZGyA?pwd=9amr ">Link</a></td><td>-</td><td>-</td>
     </tr>
     </tr>
     <tr align="center">
