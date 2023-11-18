@@ -200,11 +200,6 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
         gr.Examples(
             examples=[
                 [
-                    f"{cur_dir}/examples/sample_img_8.png",
-                    f"{cur_dir}/examples/sample_demo_8.mp4",
-                    "Are the image and the video depicting the same place?",
-                ],
-                [
                     f"{cur_dir}/examples/sample_img_22.png",
                     f"{cur_dir}/examples/sample_demo_22.mp4",
                     "Are the instruments in the pictures used in the video?",
@@ -213,6 +208,11 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                     f"{cur_dir}/examples/sample_img_13.png",
                     f"{cur_dir}/examples/sample_demo_13.mp4",
                     "Does the flag in the image appear in the video?",
+                ],
+                [
+                    f"{cur_dir}/examples/sample_img_8.png",
+                    f"{cur_dir}/examples/sample_demo_8.mp4",
+                    "Are the image and the video depicting the same place?",
                 ],
             ],
             inputs=[image1, video, textbox],
