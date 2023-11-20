@@ -24,7 +24,7 @@
 
 
 ## 📰 News
-* **[2023.11.18]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2023.11.20]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
