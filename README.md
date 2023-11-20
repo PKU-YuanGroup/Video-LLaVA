@@ -16,11 +16,11 @@
 [![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/Video-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
-<!--这是一个注释，注释在浏览器中不会显示-->
-<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
-<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
-<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
-<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-activitynet-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=video-llava-learning-united-visual) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=video-llava-learning-united-visual) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=video-llava-learning-united-visual) <br>
+<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-activitynet)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet?p=one-for-all-video-conversation-is-feasible) <br>-->
 
 
 ## 📰 News
