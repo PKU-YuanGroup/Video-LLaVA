@@ -54,7 +54,11 @@ Highly recommend trying out our web demo by the following command, which incorpo
 ```bash
 python -m  llava.serve.gradio_web_server
 ```
-https://github.com/PKU-YuanGroup/Video-LLaVA/assets/62638829/0dc9647d-49a3-4994-913a-66329089a346
+
+
+https://github.com/PKU-YuanGroup/Video-LLaVA/assets/62638829/71ab15ac-105e-4b18-b0b5-e1b35d70607b
+
+
 
 * **CLI Inference**
 
