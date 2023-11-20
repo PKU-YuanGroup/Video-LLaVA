@@ -176,7 +176,7 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
             )
 
         with gr.Column(scale=7):
-            chatbot = gr.Chatbot(label="Video-LLaVA", bubble_full_width=True).style(height=850)
+            chatbot = gr.Chatbot(label="Video-LLaVA", bubble_full_width=True).style(height=750)
             with gr.Row():
                 with gr.Column(scale=8):
                     textbox.render()
