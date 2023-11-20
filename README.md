@@ -125,6 +125,16 @@ If you find our paper and code useful in your research, please consider giving a
 }
 ```
 
+```BibTeX
+@misc{zhu2023languagebind,
+      title={LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment}, 
+      author={Bin Zhu and Bin Lin and Munan Ning and Yang Yan and Jiaxi Cui and HongFa Wang and Yatian Pang and Wenhao Jiang and Junwu Zhang and Zongwei Li and Wancai Zhang and Zhifeng Li and Wei Liu and Li Yuan},
+      year={2023},
+      eprint={2310.01852},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
 
 <!--
 ## ✨ Star History
