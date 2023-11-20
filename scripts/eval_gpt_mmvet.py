@@ -114,7 +114,7 @@ result_path = args.result_path
 num_run = 1 # we set it as 5 in the paper
 model_results_file = os.path.join(result_path, f"{model}.json")
 
-# grade results for each sample to svae
+# grade results for each sample to save
 grade_file = f'{model}_{gpt_model}-grade-{num_run}runs.json'
 grade_file = os.path.join(result_path, grade_file)
 
