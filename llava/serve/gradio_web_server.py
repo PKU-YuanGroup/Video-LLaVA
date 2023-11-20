@@ -168,10 +168,6 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                         "What are the things I should be cautious about when I visit here?",
                     ],
                     [
-                        f"{cur_dir}/examples/glove.jpg",
-                        "What happens when the glove drops?",
-                    ],
-                    [
                         f"{cur_dir}/examples/desert.jpg",
                         "If there are factual errors in the questions, point it out; if not, proceed answering the question. What’s happening in the desert?",
                     ],
