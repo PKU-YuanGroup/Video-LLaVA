@@ -113,17 +113,18 @@ The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VA
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
 
 ```BibTeX
-@misc{zhu2023languagebind,
-      title={LanguageBind: Extending Video-Language Pretraining to N-modality by Language-based Semantic Alignment}, 
-      author={Bin Zhu and Bin Lin and Munan Ning and Yang Yan and Jiaxi Cui and Wang HongFa and Yatian Pang and Wenhao Jiang and Junwu Zhang and Zongwei Li and Cai Wan Zhang and Zhifeng Li and Wei Liu and Li Yuan},
+@misc{lin2023videollava,
+      title={Video-LLaVA: Learning United Visual Representation by Alignment Before Projection}, 
+      author={Bin Lin and Bin Zhu and Yang Ye and Munan Ning and Peng Jin and Li Yuan},
       year={2023},
-      eprint={2310.01852},
+      eprint={2311.10122},
       archivePrefix={arXiv},
       primaryClass={cs.CV}
 }
 ```
 
 
+<!--
 ## ✨ Star History
-
 [![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/Video-LLaVA&type=Date)](https://star-history.com/#PKU-YuanGroup/Video-LLaVA&Date)
+-->
