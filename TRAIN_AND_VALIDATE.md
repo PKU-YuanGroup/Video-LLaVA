@@ -15,19 +15,19 @@ We also provide the processed data as follows.
         <th>Datasets</th><th>Baidu Disk</th>
     </tr>
     <tr align="center">
-        <td>Image pretraining</td><td><a href="">Link</a></td>
+        <td>Image pretraining</td><td><a href="https://pan.baidu.com/s/17GYcE69FcJjjUM0e4Gad2w?pwd=9ga3">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>Image tuning</td><td><a href="">Link</a></td>
+        <td>Image tuning</td><td><a href="https://pan.baidu.com/s/1l-jT6t_DlN5DTklwArsqGw?pwd=o6ko">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>Video pretraining</td><td><a href="">Link</a></td>
+        <td>Video pretraining</td><td><a href="https://pan.baidu.com/s/1jluOimE7mmihEBfnpwwCew?pwd=jyjz">Link</a></td>
     </tr>
     </tr>
     <tr align="center">
-        <td>Video tuning</td><td><a href="">Link</a></td>
+        <td>Video tuning</td><td><a href="https://pan.baidu.com/s/10hJ_U7wVmYTUo75YHc_n8g?pwd=g1hf">Link</a></td>
     </tr>
 </table>
 </div>
