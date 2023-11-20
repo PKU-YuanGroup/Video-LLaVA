@@ -6,17 +6,8 @@
 <h2 align="center"> <a href="https://arxiv.org/abs/2311.10122">Video-LLaVA: Learning United Visual Representation by Alignment Before Projection</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
-<!--
-<p align="center">
-📖 <a href="https://arxiv.org/abs/2311.10122">Paper</a>
-    &nbsp｜&nbsp
-🤗<a href="https://huggingface.co/spaces/LanguageBind/Video-LLaVA">Demo</a>
-    &nbsp&nbsp|&nbsp&nbsp
-🤖 <a href="https://github.com/PKU-YuanGroup/Video-LLaVA/tree/main#-api">API</a>
-    &nbsp&nbsp|&nbsp&nbsp
-📄<a href="https://github.com/PKU-YuanGroup/Video-LLaVA/blob/main/TRAIN_AND_VALIDATE.md">Instruction</a>
-</p>
--->
+
+
 
 [![hf_space](https://img.shields.io/badge/🤗-Open%20In%20Spaces-blue.svg)](https://huggingface.co/spaces/LanguageBind/Video-LLaVA)
 [![arXiv](https://img.shields.io/badge/Arxiv-2311.10122-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2311.10122)
@@ -25,11 +16,12 @@
 [![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/Video-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed)  <br>
 
+<!--这是一个注释，注释在浏览器中不会显示-->
+<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
+<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
+<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
+<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-activitynet-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet-qa?p=one-for-all-video-conversation-is-feasible) <br>-->
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=one-for-all-video-conversation-is-feasible) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=one-for-all-video-conversation-is-feasible) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=one-for-all-video-conversation-is-feasible) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/one-for-all-video-conversation-is-feasible/zeroshot-video-question-answer-on-activitynet-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet-qa?p=one-for-all-video-conversation-is-feasible) <br>
 
 ## 📰 News
 * **[2023.11.18]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
