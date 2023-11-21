@@ -20,10 +20,10 @@
 
 </h5>
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=video-llava-learning-united-visual) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=video-llava-learning-united-visual) <br>
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=video-llava-learning-united-visual) <br>
-<!--[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual/zeroshot-video-question-answer-on-activitynet)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-activitynet?p=one-for-all-video-conversation-is-feasible) <br>-->
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual-1/zeroshot-video-question-answer-on-msrvtt-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msrvtt-qa?p=video-llava-learning-united-visual-1) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual-1/zeroshot-video-question-answer-on-msvd-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-msvd-qa?p=video-llava-learning-united-visual-1) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/video-llava-learning-united-visual-1/zeroshot-video-question-answer-on-tgif-qa)](https://paperswithcode.com/sota/zeroshot-video-question-answer-on-tgif-qa?p=video-llava-learning-united-visual-1) <br>
+
 
 
 ## 📰 News
