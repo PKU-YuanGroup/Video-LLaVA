@@ -9,7 +9,7 @@ HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES=0,1,2,3 deepsp
     --video_folder ${DATA_ROOT} \
     --image_folder ${DATA_ROOT} \
     --X "Video" "Image" \
-    --video_tower LanguageBind/LanguageBind_Video \
+    --video_tower LanguageBind/LanguageBind_Video_merge \
     --image_tower LanguageBind/LanguageBind_Image \
     --pretrain_mm_mlp_adapter checkpoints/Video-LLaVA-Pretrain-7B/mm_projector.bin \
     --mm_projector_type mlp2x_gelu \
