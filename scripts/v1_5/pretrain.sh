@@ -8,7 +8,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 deepspeed llava/train/train_mem.py \
     --video_folder ${DATA_ROOT} \
     --image_folder ${DATA_ROOT} \
     --X "Video" "Image" \
-    --video_tower LanguageBind/LanguageBind_Video \
+    --video_tower LanguageBind/LanguageBind_Video_merge \
     --image_tower LanguageBind/LanguageBind_Image \
     --mm_projector_type mlp2x_gelu \
     --tune_mm_mlp_adapter True \
