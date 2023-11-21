@@ -260,3 +260,10 @@ If you find our paper and code useful in your research, please consider giving a
 ## ✨ Star History
 [![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/Video-LLaVA&type=Date)](https://star-history.com/#PKU-YuanGroup/Video-LLaVA&Date)
 
+## Contributors
+
+<a href="https://github.com/PKU-YuanGroup/Video-LLaVA/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=PKU-YuanGroup/Video-LLaVA" />
+</a>
+
+
