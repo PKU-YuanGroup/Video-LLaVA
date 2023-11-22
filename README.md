@@ -17,10 +17,10 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPKU-YuanGroup%2FVideo-LLaVA&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitor&edge_flat=false)](https://hits.seeyoufarm.com)
 [![GitHub issues](https://img.shields.io/github/issues/PKU-YuanGroup/Video-LLaVA?color=critical&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/PKU-YuanGroup/Video-LLaVA?color=success&label=Issues)](https://github.com/PKU-YuanGroup/Video-LLaVA/issues?q=is%3Aissue+is%3Aclosed) <br>
-
 [![zhihu](https://img.shields.io/badge/Twitter@jesselaunz%20-black)](https://twitter.com/jesselaunz/status/1726850138776453379)
 [![zhihu](https://img.shields.io/badge/Twitter@Aran%20Komatsuzaki%20-black)](https://twitter.com/arankomatsuzaki/status/1726421417963516144)
 [![zhihu](https://img.shields.io/badge/Twitter@Nate%20Raw%20-black)](https://twitter.com/_nateraw/status/1726783481248977037)
+[![zhihu](https://img.shields.io/badge/YouTube-FF0000)](https://www.youtube.com/watch?v=EFkN00rGq1U&ab_channel=JesseLau-aTrader)
 [![zhihu](https://img.shields.io/badge/量子位%20-black)](https://mp.weixin.qq.com/s/EFqLv_Euf5VU024zOtzkkg)
 [![zhihu](https://img.shields.io/badge/知乎-0084FF)](https://zhuanlan.zhihu.com/p/668166885)
 
