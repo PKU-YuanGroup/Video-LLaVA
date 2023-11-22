@@ -274,3 +274,5 @@ $RECYCLE.BIN/
 # huggingface model cache
 .locks
 models--LanguageBind--Video-LLaVA-7B
+temp
+cache_dir
