@@ -1,12 +1,15 @@
 import shutil
 import subprocess
 import argparse
-import tempfile
+
+import torch
+import gradio as gr
+from fastapi import FastAPI
 import os
 from PIL import Image
-from fastapi import FastAPI
-import gradio as gr
-import torch
+import tempfile
+from decord import VideoReader, cpu
+from transformers import TextStreamer
 
 from llava.constants import DEFAULT_X_TOKEN, X_TOKEN_INDEX
 from llava.conversation import conv_templates, SeparatorStyle, Conversation
@@ -19,42 +22,21 @@ from llava.serve.gradio_utils import (
 )
 
 
-class VideoLLaVAHandler:
-    def __init__(self, args):
-        self.args = args
-        self.conv_mode = args.conv_mode
-        self.state = conv_templates[self.conv_mode].copy()
-        self.state_ = conv_templates[self.conv_mode].copy()
-        self.images_tensor = [[], []]
-        self.first_run = True
-        self.handler = None
-        self.dtype = torch.float32 if self.args.use_full_precision else torch.float16
-        self.setup_handler()
+if __name__ == "__main__":
 
-    def setup_handler(self):
-        self.handler = Chat(
-            self.args.model_path,
-            conv_mode=self.conv_mode,
-            load_8bit=self.args.load_8bit,
-            load_4bit=self.args.load_4bit,
-            device=self.args.device,
-        )
-
-    def save_image_to_local(self, image):
+    def save_image_to_local(image):
         filename = os.path.join("temp", next(tempfile._get_candidate_names()) + ".jpg")
         image = Image.open(image)
         image.save(filename)
         # print(filename)
         return filename
 
-    def save_video_to_local(self, video_path):
+    def save_video_to_local(video_path):
         filename = os.path.join("temp", next(tempfile._get_candidate_names()) + ".mp4")
         shutil.copyfile(video_path, filename)
         return filename
 
-    def generate(
-        self, image1, video, textbox_in, first_run, state, state_, images_tensor
-    ):
+    def generate(image1, video, textbox_in, first_run, state, state_, images_tensor):
         flag = 1
         if not textbox_in:
             if len(state_.messages) > 0:
@@ -69,8 +51,8 @@ class VideoLLaVAHandler:
         # assert not (os.path.exists(image1) and os.path.exists(video))
 
         if type(state) is not Conversation:
-            state = conv_templates[self.conv_mode].copy()
-            state_ = conv_templates[self.conv_mode].copy()
+            state = conv_templates[conv_mode].copy()
+            state_ = conv_templates[conv_mode].copy()
             images_tensor = [[], []]
 
         first_run = False if len(state.messages) > 0 else True
@@ -78,26 +60,26 @@ class VideoLLaVAHandler:
         text_en_in = textbox_in.replace("picture", "image")
 
         # images_tensor = [[], []]
-        image_processor = self.handler.image_processor
+        image_processor = handler.image_processor
         if os.path.exists(image1) and not os.path.exists(video):
             tensor = image_processor.preprocess(image1, return_tensors="pt")[
                 "pixel_values"
             ][0]
             # print(tensor.shape)
-            tensor = tensor.to(self.handler.model.device, dtype=self.dtype)
+            tensor = tensor.to(handler.model.device, dtype=dtype)
             images_tensor[0] = images_tensor[0] + [tensor]
             images_tensor[1] = images_tensor[1] + ["image"]
-        video_processor = self.handler.video_processor
+        video_processor = handler.video_processor
         if not os.path.exists(image1) and os.path.exists(video):
             tensor = video_processor(video, return_tensors="pt")["pixel_values"][0]
             # print(tensor.shape)
-            tensor = tensor.to(self.handler.model.device, dtype=self.dtype)
+            tensor = tensor.to(handler.model.device, dtype=dtype)
             images_tensor[0] = images_tensor[0] + [tensor]
             images_tensor[1] = images_tensor[1] + ["video"]
         if os.path.exists(image1) and os.path.exists(video):
             tensor = video_processor(video, return_tensors="pt")["pixel_values"][0]
             # print(tensor.shape)
-            tensor = tensor.to(self.handler.model.device, dtype=self.dtype)
+            tensor = tensor.to(handler.model.device, dtype=dtype)
             images_tensor[0] = images_tensor[0] + [tensor]
             images_tensor[1] = images_tensor[1] + ["video"]
 
@@ -105,7 +87,7 @@ class VideoLLaVAHandler:
                 "pixel_values"
             ][0]
             # print(tensor.shape)
-            tensor = tensor.to(self.handler.model.device, dtype=self.dtype)
+            tensor = tensor.to(handler.model.device, dtype=dtype)
             images_tensor[0] = images_tensor[0] + [tensor]
             images_tensor[1] = images_tensor[1] + ["image"]
 
@@ -122,7 +104,7 @@ class VideoLLaVAHandler:
                 + DEFAULT_X_TOKEN["IMAGE"]
             )
 
-        text_en_out, state_ = self.handler.generate(
+        text_en_out, state_ = handler.generate(
             images_tensor, text_en_in, first_run=first_run, state=state_
         )
         state_.messages[-1] = (state_.roles[1], text_en_out)
@@ -132,10 +114,10 @@ class VideoLLaVAHandler:
 
         show_images = ""
         if os.path.exists(image1):
-            filename = self.save_image_to_local(image1)
+            filename = save_image_to_local(image1)
             show_images += f'<img src="./file={filename}" style="display: inline-block;width: 250px;max-height: 400px;">'
         if os.path.exists(video):
-            filename = self.save_video_to_local(video)
+            filename = save_video_to_local(video)
             show_images += f'<video controls playsinline width="500" style="display: inline-block;"  src="./file={filename}"></video>'
 
         if flag:
@@ -155,16 +137,16 @@ class VideoLLaVAHandler:
             gr.update(value=video if os.path.exists(video) else None, interactive=True),
         )
 
-    def regenerate(self, state, state_):
+    def regenerate(state, state_):
         state.messages.pop(-1)
         state_.messages.pop(-1)
         if len(state.messages) > 0:
             return state, state_, state.to_gradio_chatbot(), False
         return (state, state_, state.to_gradio_chatbot(), True)
 
-    def clear_history(self, state, state_):
-        state = conv_templates[self.conv_mode].copy()
-        state_ = conv_templates[self.conv_mode].copy()
+    def clear_history(state, state_):
+        state = conv_templates[conv_mode].copy()
+        state_ = conv_templates[conv_mode].copy()
         return (
             gr.update(value=None, interactive=True),
             gr.update(value=None, interactive=True),
@@ -176,7 +158,7 @@ class VideoLLaVAHandler:
             [[], []],
         )
 
-    def create_gradio_ui(self):
+    def create_gradio_ui(handler, args):
         textbox = gr.Textbox(
             show_label=False, placeholder="Enter text and press ENTER", container=False
         )
@@ -230,13 +212,9 @@ class VideoLLaVAHandler:
                         flag_btn = gr.Button(value="⚠️  Flag", interactive=True)
                         # stop_btn = gr.Button(value="⏹️  Stop Generation", interactive=False)
                         regenerate_btn = gr.Button(
-                            value="🔄  Regenerate",
-                            interactive=True,
-                        )
+                            value="🔄  Regenerate", interactive=True)
                         clear_btn = gr.Button(
-                            value="🗑️  Clear history",
-                            interactive=True,
-                        )
+                            value="🗑️  Clear history", interactive=True)
 
             with gr.Row():
                 gr.Examples(
@@ -284,7 +262,7 @@ class VideoLLaVAHandler:
             gr.Markdown(learn_more_markdown)
 
             submit_btn.click(
-                self.generate,
+                generate,
                 [
                     image1,
                     video,
@@ -307,9 +285,9 @@ class VideoLLaVAHandler:
             )
 
             regenerate_btn.click(
-                self.regenerate, [state, state_], [state, state_, chatbot, first_run]
+                regenerate, [state, state_], [state, state_, chatbot, first_run]
             ).then(
-                self.generate,
+                generate,
                 [
                     image1,
                     video,
@@ -332,7 +310,7 @@ class VideoLLaVAHandler:
             )
 
             clear_btn.click(
-                self.clear_history,
+                clear_history,
                 [state, state_],
                 [
                     image1,
@@ -348,8 +326,6 @@ class VideoLLaVAHandler:
 
         return demo
 
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Gradio app with custom settings")
     parser.add_argument(
         "--server_name", type=str, default="0.0.0.0", help="Server name"
@@ -400,14 +376,34 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    conv_mode = args.conv_mode
+    model_path = args.model_path
+    device = args.device
+    load_8bit = args.load_8bit
+    load_4bit = args.load_4bit
+    dtype = torch.float32 if args.use_full_precision else torch.float16
+
+    handler = Chat(
+        model_path,
+        conv_mode=conv_mode,
+        load_8bit=load_8bit,
+        load_4bit=load_8bit,
+        device=device,
+    )
+    # handler.model.to(dtype=dtype)
+
     if not os.path.exists("temp"):
         os.makedirs("temp")
 
-    video_llava_handler = VideoLLaVAHandler(args)
     app = FastAPI()
-    demo = video_llava_handler.create_gradio_ui()
+
+    demo = create_gradio_ui(handler, args)
+
+    # app = gr.mount_gradio_app(app, demo, path="/")
     demo.launch(
         server_name=args.server_name,
         server_port=args.server_port,
         share=args.share,
     )
+
+# uvicorn llava.serve.gradio_web_server:app
