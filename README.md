@@ -38,6 +38,7 @@
 
 
 ## 📰 News
+* **[2023.11.21]**  🤝Check out the [replicate demo](https://replicate.com/nateraw/video-llava), created by [@nateraw](https://github.com/nateraw), who has generously supported our research!
 * **[2023.11.20]**  🤗[Demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and code are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
