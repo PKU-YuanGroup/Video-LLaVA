@@ -20,8 +20,8 @@
 [![zhihu](https://img.shields.io/badge/Twitter@jesselaunz%20-black)](https://twitter.com/jesselaunz/status/1726850138776453379)
 [![zhihu](https://img.shields.io/badge/Twitter@Aran%20Komatsuzaki%20-black)](https://twitter.com/arankomatsuzaki/status/1726421417963516144)
 [![zhihu](https://img.shields.io/badge/Twitter@Nate%20Raw%20-black)](https://twitter.com/_nateraw/status/1726783481248977037)
+[![zhihu](https://img.shields.io/badge/WeChat@量子位-07C160)](https://mp.weixin.qq.com/s/EFqLv_Euf5VU024zOtzkkg)
 [![zhihu](https://img.shields.io/badge/YouTube-FF0000)](https://www.youtube.com/watch?v=EFkN00rGq1U&ab_channel=JesseLau-aTrader)
-[![zhihu](https://img.shields.io/badge/量子位%20-black)](https://mp.weixin.qq.com/s/EFqLv_Euf5VU024zOtzkkg)
 [![zhihu](https://img.shields.io/badge/知乎-0084FF)](https://zhuanlan.zhihu.com/p/668166885)
 
 </h5>
