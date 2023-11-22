@@ -249,7 +249,7 @@ If you find our paper and code useful in your research, please consider giving a
 ```BibTeX
 @misc{lin2023videollava,
       title={Video-LLaVA: Learning United Visual Representation by Alignment Before Projection}, 
-      author={Bin Lin and Bin Zhu and Yang Ye and Munan Ning and Peng Jin and Li Yuan},
+      author={Bin Lin and Yang Ye and Bin Zhu and Jiaxi Cui and Munan Ning and Peng Jin and Li Yuan},
       year={2023},
       eprint={2311.10122},
       archivePrefix={arXiv},
