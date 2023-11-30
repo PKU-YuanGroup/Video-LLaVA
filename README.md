@@ -247,7 +247,7 @@ The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VA
 * [LLaVA](https://github.com/haotian-liu/LLaVA) The codebase we built upon and it is an efficient large language and vision assistant.
 * [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT) Great job contributing the evaluation code and dataset.
 
-## 🤝 Related Projects
+## 🙌 Related Projects
 * [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) An open source five modalities language-based retrieval framework.
 * [Chat-UniVi](https://github.com/PKU-YuanGroup/Chat-UniVi) This framework empowers the model to efficiently utilize a limited number of visual tokens.
 
@@ -280,11 +280,11 @@ If you find our paper and code useful in your research, please consider giving a
 }
 ```
 
-<!--
+<!---->
 ## ✨ Star History
-[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/Video-LLaVA&type=Date)](https://star-history.com/#PKU-YuanGroup/Video-LLaVA&Date)-->
+[![Star History](https://api.star-history.com/svg?repos=PKU-YuanGroup/Video-LLaVA&type=Date)](https://star-history.com/#PKU-YuanGroup/Video-LLaVA&Date)
 
-## Contributors
+## 🤝 Contributors
 
 <a href="https://github.com/PKU-YuanGroup/Video-LLaVA/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=PKU-YuanGroup/Video-LLaVA" />
