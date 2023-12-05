@@ -361,11 +361,9 @@ class LlavaMetaForCausalLM(ABC):
                 new_input_embeds.append(cur_input_embeds)
                 if labels is not None:
                     new_labels.append(labels[batch_idx])
-                cur_X_idx += 1 ############## 注意这里跳过了，如果一个sample是一个modal，那么就跳过1个全zero的modal，如果一个sample对应多个modal，这里的训练逻辑不对！！！
-                ###### 但似乎不影响1个sample的inference
-                ###### 一个text对应视频和图片，直接走下边了。只有1个text，传入none或者1个/2个全zero都无所谓，反正没有下一个数据了。
+                cur_X_idx += 1 
                 continue
-            X_token_indices = torch.where(torch.any(torch.stack([cur_input_ids == X_TOKEN_INDEX[key.upper()] for key in keys]), dim=0))[0]  # 把中间的imgtoken的位置找到
+            X_token_indices = torch.where(torch.any(torch.stack([cur_input_ids == X_TOKEN_INDEX[key.upper()] for key in keys]), dim=0))[0] 
             cur_new_input_embeds = []
             if labels is not None:
                 cur_labels = labels[batch_idx]
@@ -386,7 +384,7 @@ class LlavaMetaForCausalLM(ABC):
                         cur_new_labels.append(cur_labels[X_token_start:X_token_start+1])
                         cur_labels = cur_labels[X_token_start+2:]
                 else:
-                    cur_new_input_embeds.append(self.get_model().embed_tokens(cur_input_ids[:X_token_start]))  # imgtoken之前的text拿出来，好像都是模板套话
+                    cur_new_input_embeds.append(self.get_model().embed_tokens(cur_input_ids[:X_token_start])) 
                     cur_new_input_embeds.append(cur_X_features)
                     if labels is not None:
                         cur_new_labels.append(cur_labels[:X_token_start])
@@ -396,7 +394,7 @@ class LlavaMetaForCausalLM(ABC):
                 if getattr(self.config, 'tune_mm_mlp_adapter', False) and getattr(self.config, 'mm_use_x_start_end', False):
                     cur_input_ids = cur_input_ids[X_token_start+2:]
                 else:
-                    cur_input_ids = cur_input_ids[X_token_start+1:]   # imgtoken之后的text拿出来，是真的question
+                    cur_input_ids = cur_input_ids[X_token_start+1:] 
                 X_token_indices = torch.where(torch.any(torch.stack([cur_input_ids == X_TOKEN_INDEX[key.upper()] for key in keys]), dim=0))[0]
             
             # print(55555555555555555)
@@ -407,7 +405,7 @@ class LlavaMetaForCausalLM(ABC):
                     cur_new_input_embeds.append(self.get_model().embed_tokens(cur_input_ids))
                 if labels is not None:
                     cur_new_labels.append(cur_labels)
-            cur_new_input_embeds = [x.to(device=self.device) for x in cur_new_input_embeds]  # 前面text+图片+后面question
+            cur_new_input_embeds = [x.to(device=self.device) for x in cur_new_input_embeds] 
             cur_new_input_embeds = torch.cat(cur_new_input_embeds, dim=0)
             new_input_embeds.append(cur_new_input_embeds)
             if labels is not None:
