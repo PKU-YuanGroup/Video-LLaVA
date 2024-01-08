@@ -24,9 +24,10 @@ from llava.constants import DEFAULT_X_PATCH_TOKEN, DEFAULT_X_START_TOKEN, DEFAUL
 
 
 def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, load_4bit=False, device_map="auto", device="cuda"):
+    cache_dir = os.getenv('VIDEO_LLAVA_CACHE_DIR', r'./')
     kwargs = {"device_map": device_map,
               # "offload_folder": model_path,
-              "cache_dir": r'./'
+              "cache_dir": cache_dir,
               }
 
     if load_8bit:
