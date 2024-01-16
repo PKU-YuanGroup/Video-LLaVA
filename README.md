@@ -201,10 +201,11 @@ def main():
     video = 'videollava/serve/examples/sample_demo_1.mp4'
     inp = 'Why is this video funny?'
     model_path = 'LanguageBind/Video-LLaVA-7B'
+    cache_dir = 'cache_dir'
     device = 'cuda'
     load_4bit, load_8bit = True, False
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, processor, context_len = load_pretrained_model(model_path, None, model_name, load_8bit, load_4bit, device=device)
+    tokenizer, model, processor, _ = load_pretrained_model(model_path, None, model_name, load_8bit, load_4bit, device=device, cache_dir=cache_dir)
     video_processor = processor['video']
     conv_mode = "llava_v1"
     conv = conv_templates[conv_mode].copy()
