@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "llava"
-version = "1.1.3"
-description = "Towards GPT-4 like large language and visual assistant."
+name = "videollava"
+version = "1.0.0"
+description = "Learning United Visual Representation by Alignment Before Projection."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -20,14 +20,15 @@ dependencies = [
     "gradio==3.35.2", "gradio_client==0.2.9",
     "requests", "httpx==0.24.0", "uvicorn", "fastapi",
     "einops==0.6.1", "einops-exts==0.0.4", "timm==0.6.13",
+    "tensorboardX==2.6.2.2"
 ]
 
 [project.optional-dependencies]
 train = ["deepspeed==0.9.5", "ninja", "wandb"]
 
 [project.urls]
-"Homepage" = "https://llava-vl.github.io"
-"Bug Tracker" = "https://github.com/haotian-liu/LLaVA/issues"
+"Homepage" = "https://github.com/PKU-YuanGroup/Video-LLaVA"
+"Bug Tracker" = "https://github.com/PKU-YuanGroup/Video-LLaVA/issues"
 
 [tool.setuptools.packages.find]
 exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]
