@@ -190,15 +190,15 @@ if __name__ == '__main__':
 ### Inference for video
 ```python
 import torch
-from llava.constants import X_TOKEN_INDEX, DEFAULT_X_TOKEN
-from llava.conversation import conv_templates, SeparatorStyle
-from llava.model.builder import load_pretrained_model
-from llava.utils import disable_torch_init
-from llava.mm_utils import tokenizer_X_token, get_model_name_from_path, KeywordsStoppingCriteria
+from videollava.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN
+from videollava.conversation import conv_templates, SeparatorStyle
+from videollava.model.builder import load_pretrained_model
+from videollava.utils import disable_torch_init
+from videollava.mm_utils import tokenizer_image_token, get_model_name_from_path, KeywordsStoppingCriteria
 
 def main():
     disable_torch_init()
-    video = 'llava/serve/examples/sample_demo_1.mp4'
+    video = 'videollava/serve/examples/sample_demo_1.mp4'
     inp = 'Why is this video funny?'
     model_path = 'LanguageBind/Video-LLaVA-7B'
     device = 'cuda'
@@ -215,14 +215,13 @@ def main():
         tensor = [video.to(model.device, dtype=torch.float16) for video in video_tensor]
     else:
         tensor = video_tensor.to(model.device, dtype=torch.float16)
-    key = ['video']
 
     print(f"{roles[1]}: {inp}")
-    inp = DEFAULT_X_TOKEN['VIDEO'] + '\n' + inp
+    inp = ' '.join([DEFAULT_IMAGE_TOKEN] * model.get_video_tower().config.num_frames) + '\n' + inp
     conv.append_message(conv.roles[0], inp)
     conv.append_message(conv.roles[1], None)
     prompt = conv.get_prompt()
-    input_ids = tokenizer_X_token(prompt, tokenizer, X_TOKEN_INDEX['VIDEO'], return_tensors='pt').unsqueeze(0).cuda()
+    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
     stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
     keywords = [stop_str]
     stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
@@ -230,7 +229,7 @@ def main():
     with torch.inference_mode():
         output_ids = model.generate(
             input_ids,
-            images=[tensor, key],
+            images=tensor,
             do_sample=True,
             temperature=0.1,
             max_new_tokens=1024,
