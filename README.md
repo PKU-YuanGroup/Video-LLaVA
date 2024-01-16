@@ -52,10 +52,11 @@
 
 
 ## 📰 News
-* **[2023.11.30]**  🤝Thanks to the generous contributions of the community, the [OpenXLab's demo](https://openxlab.org.cn/apps/detail/houshaowei/Video-LLaVA) is now accessible.
-* **[2023.11.23]**  We are training a new and powerful model that supports more frames ! 
-* **[2023.11.21]**  🤝Check out the [replicate demo](https://replicate.com/nateraw/video-llava), created by [@nateraw](https://github.com/nateraw), who has generously supported our research!
-* **[2023.11.20]**  🤗[Hugging Face demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and **all codes & datasets** are available now! Welcome to **watch** 👀 this repository for the latest updates.
+* **[2024.01.16]**  🔥🔥🔥 We reorganize the code and support LoRA fine-tuning.
+* **[2023.11.30]**  🤝 Thanks to the generous contributions of the community, the [OpenXLab's demo](https://openxlab.org.cn/apps/detail/houshaowei/Video-LLaVA) is now accessible.
+* **[2023.11.23]**  We are training a new and powerful model.
+* **[2023.11.21]**  🤝 Check out the [replicate demo](https://replicate.com/nateraw/video-llava), created by [@nateraw](https://github.com/nateraw), who has generously supported our research!
+* **[2023.11.20]**  🤗 [Hugging Face demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) and **all codes & datasets** are available now! Welcome to **watch** 👀 this repository for the latest updates.
 
 ## 😮 Highlights
 
@@ -75,7 +76,7 @@ Video-LLaVA exhibits remarkable interactive capabilities between images and vide
 
 Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by Video-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) in Huggingface Spaces.
 ```bash
-python -m  llava.serve.gradio_web_server
+python -m  videollava.serve.gradio_web_server
 ```
 
 
@@ -86,13 +87,13 @@ https://github.com/PKU-YuanGroup/Video-LLaVA/assets/62638829/71ab15ac-105e-4b18-
 * **CLI Inference**
 
 ```bash
-python -m llava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --video-file "path/to/your/video.mp4" --load-4bit
+python -m videollava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --file "path/to/your/video.mp4" --load-4bit
 ```
 
 <img src="assets/videocli.gif" width="500" />
 
 ```bash
-python -m llava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --image-file "path/to/your/image.jpg" --load-4bit
+python -m videollava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --file "path/to/your/image.jpg" --load-4bit
 ```
 
 <img src="assets/imagecli.gif" width="500" />
