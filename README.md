@@ -52,7 +52,7 @@
 
 
 ## 📰 News
-* **[2024.01.16]**  🔥🔥🔥 We reorganize the code and support LoRA fine-tuning.
+* **[2024.01.16]**  🔥🔥🔥 We reorganize the code and support LoRA fine-tuning, checking [finetune_lora.sh](scripts/v1_5/finetune_lora.sh).
 * **[2023.11.30]**  🤝 Thanks to the generous contributions of the community, the [OpenXLab's demo](https://openxlab.org.cn/apps/detail/houshaowei/Video-LLaVA) is now accessible.
 * **[2023.11.23]**  We are training a new and powerful model.
 * **[2023.11.21]**  🤝 Check out the [replicate demo](https://replicate.com/nateraw/video-llava), created by [@nateraw](https://github.com/nateraw), who has generously supported our research!
