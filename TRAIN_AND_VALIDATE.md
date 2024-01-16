@@ -148,13 +148,14 @@ eval
 ## Training
 Specify your `DATA_ROOT` according to the data preparation.
 - Stage 1 pretraining script: [pretrain.sh](scripts/v1_5/pretrain.sh). 
-- Stage 2 tuning script: [finetune.sh](scripts/v1_5/finetune.sh).
+- Stage 2 tuning script: [finetune.sh](scripts/v1_5/finetune.sh) or [finetune_lora.sh](scripts/v1_5/finetune_lora.sh).
 
 ## Validating
 Our image validation code comes from LLaVA and our video validation code comes from Video-ChatGPT, thanks for their contribution! 
 
 You can refer to the official repository for validation, but we also provide [off-the-shelf](scripts/v1_5/eval) scripts.
 
+To load unmerged LoRA weights, you simply need to pass an additional argument `--model-base`, which is the base LLM that is used to train the LoRA weights. 
 
 ### MSRVTT-QA
 1. Inference to get the result.
