@@ -10,9 +10,10 @@ import tempfile
 from decord import VideoReader, cpu
 from transformers import TextStreamer
 
-from videollava.constants import DEFAULT_IMAGE_TOKEN, DEFAULT_VIDEO_TOKEN
+from videollava.constants import DEFAULT_IMAGE_TOKEN
 from videollava.conversation import conv_templates, SeparatorStyle, Conversation
 from videollava.serve.gradio_utils import Chat, tos_markdown, learn_more_markdown, title_markdown, block_css
+
 
 
 def save_image_to_local(image):
@@ -46,7 +47,7 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
     if type(state) is not Conversation:
         state = conv_templates[conv_mode].copy()
         state_ = conv_templates[conv_mode].copy()
-        images_tensor = [[]]
+        images_tensor = []
 
     first_run = False if len(state.messages) > 0 else True
 
@@ -58,31 +59,31 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
         tensor = image_processor.preprocess(image1, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
-        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor.append(tensor)
     video_processor = handler.video_processor
     if not os.path.exists(image1) and os.path.exists(video):
         tensor = video_processor(video, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
-        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor.append(tensor)
     if os.path.exists(image1) and os.path.exists(video):
         tensor = video_processor(video, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
-        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor.append(tensor)
 
         tensor = image_processor.preprocess(image1, return_tensors='pt')['pixel_values'][0]
         # print(tensor.shape)
         tensor = tensor.to(handler.model.device, dtype=dtype)
-        images_tensor[0] = images_tensor[0] + [tensor]
+        images_tensor.append(tensor)
 
     if os.path.exists(image1) and not os.path.exists(video):
         text_en_in = DEFAULT_IMAGE_TOKEN + '\n' + text_en_in
     if not os.path.exists(image1) and os.path.exists(video):
-        text_en_in = DEFAULT_VIDEO_TOKEN + '\n' + text_en_in
+        text_en_in = ''.join([DEFAULT_IMAGE_TOKEN] * handler.model.get_video_tower().config.num_frames) + '\n' + text_en_in
     if os.path.exists(image1) and os.path.exists(video):
-        text_en_in = DEFAULT_VIDEO_TOKEN + '\n' + text_en_in + '\n' + DEFAULT_IMAGE_TOKEN
-
+        text_en_in = ''.join([DEFAULT_IMAGE_TOKEN] * handler.model.get_video_tower().config.num_frames) + '\n' + text_en_in + '\n' + DEFAULT_IMAGE_TOKEN
+    # print(text_en_in)
     text_en_out, state_ = handler.generate(images_tensor, text_en_in, first_run=first_run, state=state_)
     state_.messages[-1] = (state_.roles[1], text_en_out)
 
@@ -101,9 +102,7 @@ def generate(image1, video, textbox_in, first_run, state, state_, images_tensor)
         state.append_message(state.roles[0], textbox_in + "\n" + show_images)
     state.append_message(state.roles[1], textbox_out)
 
-    return (state, state_, state.to_gradio_chatbot(), False, gr.update(value=None, interactive=True), images_tensor,
-            gr.update(value=image1 if os.path.exists(image1) else None, interactive=True),
-            gr.update(value=video if os.path.exists(video) else None, interactive=True))
+    return (state, state_, state.to_gradio_chatbot(), False, gr.update(value=None, interactive=True), images_tensor, gr.update(value=image1 if os.path.exists(image1) else None, interactive=True), gr.update(value=video if os.path.exists(video) else None, interactive=True))
 
 
 def regenerate(state, state_):
@@ -120,15 +119,15 @@ def clear_history(state, state_):
     return (gr.update(value=None, interactive=True),
             gr.update(value=None, interactive=True), \
             gr.update(value=None, interactive=True), \
-            True, state, state_, state.to_gradio_chatbot(), [[]])
+            True, state, state_, state.to_gradio_chatbot(), [])
 
 
 conv_mode = "llava_v1"
 model_path = 'LanguageBind/Video-LLaVA-7B'
 cache_dir = './cache_dir'
 device = 'cuda'
-load_8bit = False
-load_4bit = True
+load_8bit = True
+load_4bit = False
 dtype = torch.float16
 handler = Chat(model_path, conv_mode=conv_mode, load_8bit=load_8bit, load_4bit=load_8bit, device=device, cache_dir=cache_dir)
 # handler.model.to(dtype=dtype)
@@ -136,6 +135,7 @@ if not os.path.exists("temp"):
     os.makedirs("temp")
 
 app = FastAPI()
+
 
 textbox = gr.Textbox(
     show_label=False, placeholder="Enter text and press ENTER", container=False
@@ -237,8 +237,7 @@ with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css
                      [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
 
     regenerate_btn.click(regenerate, [state, state_], [state, state_, chatbot, first_run]).then(
-        generate, [image1, video, textbox, first_run, state, state_, images_tensor],
-        [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
+        generate, [image1, video, textbox, first_run, state, state_, images_tensor], [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
 
     clear_btn.click(clear_history, [state, state_],
                     [image1, video, textbox, first_run, state, state_, chatbot, images_tensor])

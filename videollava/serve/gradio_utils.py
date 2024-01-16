@@ -58,6 +58,7 @@ class Chat:
         self.image_processor = processor['image']
         self.video_processor = processor['video']
         self.conv_mode = conv_mode
+        self.conv = conv_templates[conv_mode].copy()
         self.device = self.model.device
         print(self.model)
 
@@ -72,8 +73,8 @@ class Chat:
 
         state = self.get_prompt(prompt, state)
         prompt = state.get_prompt()
-        print('\n\n\n')
-        print(prompt)
+        # print('\n\n\n')
+        # print(prompt)
 
 
         input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(self.device)
@@ -82,13 +83,11 @@ class Chat:
 
         max_new_tokens = 1024
 
-        stop_str = conv_templates[self.conv_mode].copy().sep if conv_templates[
-                                                                    self.conv_mode].copy().sep_style != SeparatorStyle.TWO else \
-            conv_templates[self.conv_mode].copy().sep2
+        stop_str = self.conv.sep if self.conv.sep_style != SeparatorStyle.TWO else self.conv.sep2
         keywords = [stop_str]
         stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
         streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-
+        print(prompt, input_ids, len(images_tensor), images_tensor[0].shape)
         with torch.inference_mode():
             output_ids = model.generate(
                 input_ids,
@@ -96,7 +95,7 @@ class Chat:
                 do_sample=True,
                 temperature=temperature,
                 max_new_tokens=max_new_tokens,
-                # streamer=streamer,
+                streamer=streamer,
                 use_cache=True,
                 stopping_criteria=[stopping_criteria])
 
