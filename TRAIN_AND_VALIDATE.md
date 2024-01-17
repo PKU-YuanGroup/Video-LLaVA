@@ -5,7 +5,7 @@
 - The images tuning dataset is from [LLaVA](https://github.com/haotian-liu/LLaVA).
 - The videos pretraining dataset is from [Valley](https://github.com/RupertLuo/Valley).
 - The videos tuning dataset is from [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT).
-- Download the training annotations. You can download from [Baidu Disk](https://pan.baidu.com/s/1BipI3_f--GRWqaWTGYp-Jg?pwd=wkl0), [Google Disk](https://drive.google.com/file/d/11-1NBXNeiNQE2wPbue1dFph_Na_EHRYG/view?usp=drive_link) or [Peking University Disk](https://disk.pku.edu.cn:443/link/84783AB54553DFA150C1C5E82C16EB29)
+- Download the training annotations. You can download from [Baidu Disk](https://pan.baidu.com/s/1vPZswad5auXlDrmV7JJpdg?pwd=lj8b), [Google Disk](https://drive.google.com/file/d/1zGRyVSUMoczGq6cjQFmT0prH67bu2wXD/view?usp=sharing) or [Peking University Disk](https://disk.pku.edu.cn:443/link/E8BFEFF8EB55E92DEEA232EB094FDB4C)
 
 
 We also provide the processed data as follows.
