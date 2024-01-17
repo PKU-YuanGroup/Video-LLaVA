@@ -2,6 +2,7 @@
 JSON_FOLDER="llava_all_image_video/pt_json"
 IMAGE_FOLDER="llava_all_image_video"
 VIDEO_FOLDER="llava_all_image_video"
+
 cd /path/to/Video-LLaVA
 HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
