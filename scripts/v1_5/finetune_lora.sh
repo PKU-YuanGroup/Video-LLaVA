@@ -7,7 +7,7 @@ cd /path/to/Video-LLaVA
 
 HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_mem.py \
     --lora_enable True --lora_r 128 --lora_alpha 256 --mm_projector_lr 2e-5 \
-    --deepspeed ./scripts/zero2_offload.json \
+    --deepspeed ./scripts/zero2.json \
     --model_name_or_path lmsys/vicuna-7b-v1.5 \
     --version v1 \
     --data_path ${JSON_FOLDER}/llava_image_tune_.json ${JSON_FOLDER}/videochatgpt_tune_.json ${JSON_FOLDER}/nlp_tune.json \
@@ -43,4 +43,4 @@ HF_DATASETS_OFFLINE=1 TRANSFORMERS_OFFLINE=1 deepspeed videollava/train/train_me
     --dataloader_num_workers 4 \
     --lazy_preprocess True \
     --report_to tensorboard \
-	  --cache_dir "./cache_dir"
+    --cache_dir "./cache_dir"
