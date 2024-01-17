@@ -52,6 +52,7 @@
 
 
 ## 📰 News
+* **[2024.01.17]**  🔥🔥🔥 Our LanguageBind has been accepted at ICLR 2024!
 * **[2024.01.16]**  🔥🔥🔥 We reorganize the code and support LoRA fine-tuning, checking [finetune_lora.sh](scripts/v1_5/finetune_lora.sh).
 * **[2023.11.30]**  🤝 Thanks to the generous contributions of the community, the [OpenXLab's demo](https://openxlab.org.cn/apps/detail/houshaowei/Video-LLaVA) is now accessible.
 * **[2023.11.23]**  We are training a new and powerful model.
