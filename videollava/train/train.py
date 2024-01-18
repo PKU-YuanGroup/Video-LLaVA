@@ -115,6 +115,9 @@ class TrainingArguments(transformers.TrainingArguments):
     mm_projector_lr: Optional[float] = None
     group_by_modality_length: bool = field(default=False)
 
+    # ================================================
+    tokenizer_model_max_length: Optional[int] = None
+    # ================================================
 
 def maybe_zero_3(param, ignore_status=False, name=None):
     from deepspeed import zero
@@ -1019,8 +1022,12 @@ def train():
 
         model.config.image_aspect_ratio = data_args.image_aspect_ratio
         model.config.tokenizer_padding_side = tokenizer.padding_side
-        model.config.tokenizer_model_max_length = tokenizer.model_max_length
 
+        # =============================================================================================================
+        tokenizer_model_max_length = training_args.tokenizer_model_max_length
+        model.config.tokenizer_model_max_length = tokenizer.model_max_length if tokenizer_model_max_length is None else tokenizer_model_max_length
+        # =============================================================================================================
+        
         model.config.tune_mm_mlp_adapter = training_args.tune_mm_mlp_adapter = model_args.tune_mm_mlp_adapter
         if model_args.tune_mm_mlp_adapter:
             model.requires_grad_(False)
