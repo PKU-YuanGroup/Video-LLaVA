@@ -31,8 +31,13 @@ def eval_model(args):
     disable_torch_init()
     model_path = os.path.expanduser(args.model_path)
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name)
-
+    tokenizer, model, processor, context_len = load_pretrained_model(model_path, args.model_base, model_name)
+    if args.return_gating_logit:
+        from videollava.utils import get_gating_logit_by_hook
+        print(model)
+        fea_hooks = get_gating_logit_by_hook(model)
+        all_gating_logits = {}
+    image_processor = processor['image']
     questions = json.load(open(os.path.expanduser(args.question_file), "r"))
     questions = get_chunk(questions, args.num_chunks, args.chunk_idx)
     answers_file = os.path.expanduser(args.answers_file)
@@ -79,10 +84,16 @@ def eval_model(args):
                 do_sample=True if args.temperature > 0 else False,
                 temperature=args.temperature,
                 max_new_tokens=1024,
-                use_cache=True,
+                use_cache=True if not args.return_gating_logit else False,
                 stopping_criteria=stopping_criteria,
             )
-
+        if args.return_gating_logit:
+            all_gating_logits[idx] = dict(gating_logit=fea_hooks, images=images if images is None else images.detach().cpu(), input_ids=input_ids.detach().cpu())
+            print(input_ids.shape, images.shape if images is not None else [])
+            print('The number of hooks is:', len(fea_hooks), 'The shape of the first gating logit is:', fea_hooks[0].fea.shape)
+        # print(output_ids)
+        # import ipdb
+        # ipdb.set_trace()
         input_token_len = input_ids.shape[1]
         n_diff_input_output = (input_ids != output_ids[:, :input_token_len]).sum().item()
         if n_diff_input_output > 0:
@@ -92,7 +103,7 @@ def eval_model(args):
         if outputs.endswith(stop_str):
             outputs = outputs[:-len(stop_str)]
         outputs = outputs.strip()
-
+        print(outputs)
         # prompt for answer
         if args.answer_prompter:
             outputs_reasoning = outputs
@@ -129,6 +140,9 @@ def eval_model(args):
         ans_file.flush()
     ans_file.close()
 
+    if args.return_gating_logit:
+        torch.save(all_gating_logits, 'vqa_science_all_gating_logits.pt')
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", type=str, default="facebook/opt-350m")
@@ -142,6 +156,8 @@ if __name__ == "__main__":
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--answer-prompter", action="store_true")
     parser.add_argument("--single-pred-prompt", action="store_true")
+    parser.add_argument("--local_rank", type=int, default=-1)
+    parser.add_argument("--return_gating_logit", action="store_true")
     args = parser.parse_args()
 
     eval_model(args)

@@ -74,8 +74,14 @@ def eval_model(args):
     disable_torch_init()
     model_path = os.path.expanduser(args.model_path)
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, image_processor, context_len = load_pretrained_model(model_path, args.model_base, model_name)
+    tokenizer, model, processor, context_len = load_pretrained_model(model_path, args.model_base, model_name)
 
+    if args.return_gating_logit:
+        from videollava.utils import get_gating_logit_by_hook
+        print(model)
+        fea_hooks = get_gating_logit_by_hook(model)
+        all_gating_logits = {}
+    image_processor = processor['image']
     questions = [json.loads(q) for q in open(os.path.expanduser(args.question_file), "r")]
     questions = get_chunk(questions, args.num_chunks, args.chunk_idx)
     answers_file = os.path.expanduser(args.answers_file)
@@ -88,7 +94,11 @@ def eval_model(args):
 
     data_loader = create_data_loader(questions, args.image_folder, tokenizer, image_processor, model.config)
 
+    cnt = -1
     for (input_ids, image_tensor), line in tqdm(zip(data_loader, questions), total=len(questions)):
+        cnt += 1
+        # if cnt == 30:
+        #     break
         idx = line["question_id"]
         cur_prompt = line["text"]
 
@@ -103,7 +113,17 @@ def eval_model(args):
                 top_p=args.top_p,
                 num_beams=args.num_beams,
                 max_new_tokens=args.max_new_tokens,
-                use_cache=True)
+                use_cache=True if not args.return_gating_logit else False)
+        if args.return_gating_logit:
+            # import ipdb
+            # ipdb.set_trace()
+            all_gating_logits[cnt] = dict(gating_logit=[i.fea for i in fea_hooks],
+                                          images=image_tensor if image_tensor is None else image_tensor.detach().cpu(),
+                                          input_ids=input_ids.detach().cpu(),
+                                          output_ids=output_ids.detach().cpu())
+            print(input_ids.shape, output_ids.shape, fea_hooks[0].fea.shape, image_tensor.shape if image_tensor is not None else [])
+            assert fea_hooks[0].fea.shape[0] + 1 == output_ids.shape[1] + 575
+            print('The number of hooks is:', len(fea_hooks))
 
         input_token_len = input_ids.shape[1]
         n_diff_input_output = (input_ids != output_ids[:, :input_token_len]).sum().item()
@@ -112,6 +132,7 @@ def eval_model(args):
         outputs = tokenizer.batch_decode(output_ids[:, input_token_len:], skip_special_tokens=True)[0]
         outputs = outputs.strip()
 
+        print(outputs)
         ans_id = shortuuid.uuid()
         ans_file.write(json.dumps({"question_id": idx,
                                    "prompt": cur_prompt,
@@ -121,6 +142,8 @@ def eval_model(args):
                                    "metadata": {}}) + "\n")
         # ans_file.flush()
     ans_file.close()
+    if args.return_gating_logit:
+        torch.save(all_gating_logits, 'text_qa_all_gating_logits.pt')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -136,6 +159,8 @@ if __name__ == "__main__":
     parser.add_argument("--top_p", type=float, default=None)
     parser.add_argument("--num_beams", type=int, default=1)
     parser.add_argument("--max_new_tokens", type=int, default=128)
+    parser.add_argument("--local_rank", type=int, default=-1)
+    parser.add_argument("--return_gating_logit", action="store_true")
     args = parser.parse_args()
 
     eval_model(args)
