@@ -8,7 +8,7 @@
 - Download the training annotations. You can download from [Baidu Disk](https://pan.baidu.com/s/1vPZswad5auXlDrmV7JJpdg?pwd=lj8b), [Google Disk](https://drive.google.com/file/d/1zGRyVSUMoczGq6cjQFmT0prH67bu2wXD/view?usp=sharing) or [Peking University Disk](https://disk.pku.edu.cn:443/link/E8BFEFF8EB55E92DEEA232EB094FDB4C)
 
 
-We also provide the processed data as follows.
+We provide the processed data on [Hugging Face](https://huggingface.co/datasets/LanguageBind/Video-LLaVA/tree/main), or you also can download from Baidu Disk as follows. 
 <div align="center">
 <table border="1" width="100%">
     <tr align="center">
