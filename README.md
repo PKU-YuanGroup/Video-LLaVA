@@ -73,7 +73,7 @@ Video-LLaVA exhibits remarkable interactive capabilities between images and vide
 
 ## 🤗 Demo
 
-* **Gradio Web UI**
+### Gradio Web UI
 
 Highly recommend trying out our web demo by the following command, which incorporates all features currently supported by Video-LLaVA. We also provide [online demo](https://huggingface.co/spaces/LanguageBind/Video-LLaVA) in Huggingface Spaces.
 ```bash
@@ -85,7 +85,7 @@ https://github.com/PKU-YuanGroup/Video-LLaVA/assets/62638829/71ab15ac-105e-4b18-
 
 
 
-* **CLI Inference**
+### CLI Inference
 
 ```bash
 python -m videollava.serve.cli --model-path "LanguageBind/Video-LLaVA-7B" --file "path/to/your/video.mp4" --load-4bit
