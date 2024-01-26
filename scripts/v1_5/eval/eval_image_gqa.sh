@@ -12,7 +12,7 @@ EVAL="eval"
 GQADIR="${EVAL}/gqa/data"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
-    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 -m llava.eval.model_vqa_loader \
+    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 -m videollava.eval.model_vqa_loader \
         --model-path ${CKPT} \
         --question-file ${EVAL}/gqa/$SPLIT.jsonl \
         --image-folder ${EVAL}/gqa/data/images \

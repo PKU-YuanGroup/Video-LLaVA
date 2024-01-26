@@ -18,7 +18,7 @@ CHUNKS=${#GPULIST[@]}
 
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
-  CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 llava/eval/video/run_inference_video_qa.py \
+  CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 videollava/eval/video/run_inference_video_qa.py \
       --model_path ${model_path} \
       --cache_dir ${cache_dir} \
       --video_dir ${video_dir} \

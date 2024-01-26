@@ -5,7 +5,7 @@ SPLIT="mmbench_dev_20230712"
 CKPT_NAME="Video-LLaVA-7B"
 CKPT="checkpoints/${CKPT_NAME}"
 EVAL="eval"
-python3 -m llava.eval.model_vqa_mmbench \
+python3 -m videollava.eval.model_vqa_mmbench \
     --model-path ${CKPT} \
     --question-file ${EVAL}/mmbench/$SPLIT.tsv \
     --answers-file ${EVAL}/mmbench/answers/$SPLIT/${CKPT_NAME}.jsonl \

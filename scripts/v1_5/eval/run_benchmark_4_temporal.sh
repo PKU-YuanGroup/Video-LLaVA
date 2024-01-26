@@ -8,7 +8,7 @@ gt_file="${Video_5_Benchmark}/Benchmarking_QA/temporal_qa.json"
 output_dir="${Video_5_Benchmark}/${CKPT_NAME}"
 output_name="temporal_qa"
 
-python3 llava/eval/video/run_inference_benchmark_general.py \
+python3 videollava/eval/video/run_inference_benchmark_general.py \
     --model_path ${model_path} \
     --cache_dir ${cache_dir} \
     --video_dir ${video_dir} \

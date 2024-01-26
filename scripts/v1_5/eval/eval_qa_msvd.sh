@@ -11,7 +11,7 @@ num_tasks=8
 
 
 
-python3 llava/eval/video/eval_video_qa.py \
+python3 videollava/eval/video/eval_video_qa.py \
     --pred_path ${pred_path} \
     --output_dir ${output_dir} \
     --output_json ${output_json} \

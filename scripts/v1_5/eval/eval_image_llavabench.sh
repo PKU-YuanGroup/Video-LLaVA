@@ -3,7 +3,7 @@
 CKPT_NAME="Video-LLaVA-7B"
 CKPT="checkpoints/${CKPT_NAME}"
 EVAL="eval"
-python3 -m llava.eval.model_vqa \
+python3 -m videollava.eval.model_vqa \
     --model-path ${CKPT} \
     --question-file ${EVAL}/llava-bench-in-the-wild/questions.jsonl \
     --image-folder ${EVAL}/llava-bench-in-the-wild/images \
@@ -13,12 +13,12 @@ python3 -m llava.eval.model_vqa \
 
 mkdir -p ${EVAL}/llava-bench-in-the-wild/reviews
 
-python3 llava/eval/eval_gpt_review_bench.py \
+python3 videollava/eval/eval_gpt_review_bench.py \
     --question ${EVAL}/llava-bench-in-the-wild/questions.jsonl \
     --context ${EVAL}/llava-bench-in-the-wild/context.jsonl \
-    --rule llava/eval/table/rule.json \
+    --rule videollava/eval/table/rule.json \
     --answer-list ${EVAL}/llava-bench-in-the-wild/answers_gpt4.jsonl \
                   ${EVAL}/llava-bench-in-the-wild/answers/${CKPT_NAME}.jsonl \
     --output ${EVAL}/llava-bench-in-the-wild/reviews/${CKPT_NAME}.jsonl
 
-python3 llava/eval/summarize_gpt_review.py -f ${EVAL}/llava-bench-in-the-wild/reviews/${CKPT_NAME}.jsonl
+python3 videollava/eval/summarize_gpt_review.py -f ${EVAL}/llava-bench-in-the-wild/reviews/${CKPT_NAME}.jsonl

@@ -9,7 +9,7 @@ gt_file="${Video_5_Benchmark}/Benchmarking_QA/consistency_qa.json"
 output_dir="${Video_5_Benchmark}/${CKPT_NAME}"
 output_name="consistency_qa"
 
-python3 llava/eval/video/run_inference_benchmark_consistency.py \
+python3 videollava/eval/video/run_inference_benchmark_consistency.py \
     --model_path ${model_path} \
     --cache_dir ${cache_dir} \
     --video_dir ${video_dir} \

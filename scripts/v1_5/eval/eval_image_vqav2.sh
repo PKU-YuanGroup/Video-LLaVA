@@ -11,7 +11,7 @@ SPLIT="llava_vqav2_mscoco_test-dev2015"
 EVAL="eval"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
-    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 -m llava.eval.model_vqa_loader \
+    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 -m videollava.eval.model_vqa_loader \
         --model-path ${CKPT} \
         --question-file ${EVAL}/vqav2/$SPLIT.jsonl \
         --image-folder ${EVAL}/vqav2/test2015 \

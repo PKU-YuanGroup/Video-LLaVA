@@ -9,7 +9,7 @@ api_key=""
 api_base=""
 num_tasks=8
 
-python3 llava/eval/video/eval_benchmark_3_context.py \
+python3 videollava/eval/video/eval_benchmark_3_context.py \
     --pred_path  ${pred_path} \
     --output_dir  ${output_dir} \
     --output_json  ${output_json} \

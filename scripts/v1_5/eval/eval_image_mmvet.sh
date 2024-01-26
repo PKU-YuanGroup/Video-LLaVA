@@ -3,7 +3,7 @@
 CKPT_NAME="Video-LLaVA-7B"
 CKPT="checkpoints/${CKPT_NAME}"
 EVAL="eval"
-python3 -m llava.eval.model_vqa \
+python3 -m videollava.eval.model_vqa \
     --model-path ${CKPT} \
     --question-file ${EVAL}/mm-vet/llava-mm-vet.jsonl \
     --image-folder ${EVAL}/mm-vet/images \
