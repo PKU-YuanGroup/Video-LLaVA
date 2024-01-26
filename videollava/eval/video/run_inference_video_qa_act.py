@@ -7,8 +7,8 @@ import torch
 import transformers
 from tqdm import tqdm
 from videollava.conversation import conv_templates, SeparatorStyle
-from videollava.constants import DEFAULT_X_START_TOKEN, DEFAULT_X_TOKEN, DEFAULT_X_END_TOKEN, X_TOKEN_INDEX
-from videollava.mm_utils import get_model_name_from_path, tokenizer_X_token, KeywordsStoppingCriteria
+from videollava.constants import DEFAULT_IM_START_TOKEN, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_END_TOKEN, IMAGE_TOKEN_INDEX
+from videollava.mm_utils import get_model_name_from_path, tokenizer_image_token, KeywordsStoppingCriteria
 from videollava.model.builder import load_pretrained_model
 from videollava.model.language_model.llava_llama import LlavaLlamaForCausalLM
 from videollava.train.train import smart_tokenizer_and_embedding_resize
@@ -47,10 +47,10 @@ def parse_args():
     return parser.parse_args()
 
 def get_model_output(model, video_processor, tokenizer, video, qs, args):
-    if model.config.mm_use_x_start_end:
-        qs = DEFAULT_X_START_TOKEN['VIDEO'] + DEFAULT_X_TOKEN['VIDEO'] + DEFAULT_X_END_TOKEN['VIDEO'] + '\n' + qs
+    if model.config.mm_use_im_start_end:
+        qs = DEFAULT_X_START_TOKEN['VIDEO'] + ''.join([DEFAULT_IMAGE_TOKEN]*8) + DEFAULT_X_END_TOKEN['VIDEO'] + '\n' + qs
     else:
-        qs = DEFAULT_X_TOKEN['VIDEO'] + '\n' + qs
+        qs = ''.join([DEFAULT_IMAGE_TOKEN]*8) + '\n' + qs
 
     conv_mode = "llava_v1"
     args.conv_mode = conv_mode
@@ -63,7 +63,7 @@ def get_model_output(model, video_processor, tokenizer, video, qs, args):
 
     video_tensor = video_processor.preprocess(video, return_tensors='pt')['pixel_values'][0].half().to(args.device)
     # print(video_tensor.shape)
-    input_ids = tokenizer_X_token(prompt, tokenizer, X_TOKEN_INDEX['VIDEO'], return_tensors='pt').unsqueeze(0).to(args.device)
+    input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(args.device)
 
     stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
     keywords = [stop_str]
@@ -78,7 +78,7 @@ def get_model_output(model, video_processor, tokenizer, video, qs, args):
     with torch.inference_mode():
         output_ids = model.generate(
             input_ids,
-            images=[[video_tensor], ['video']],
+            images=[video_tensor],
             do_sample=True,
             temperature=0.2,
             max_new_tokens=1024,
