@@ -141,7 +141,7 @@ class VideoLlava:
         else:
             tensor = video_tensor.to(self.model.device, dtype=torch.float16)
 
-        inp = ' '.join([DEFAULT_IMAGE_TOKEN] * model.get_video_tower().config.num_frames) + '\n' + inp
+        inp = ' '.join([DEFAULT_IMAGE_TOKEN] * self.model.get_video_tower().config.num_frames) + '\n' + inp
         self.conv.append_message(self.conv.roles[0], inp)
         self.conv.append_message(self.conv.roles[1], None)
         prompt = self.conv.get_prompt()
@@ -176,6 +176,6 @@ def main():
     print(output)
 
 if __name__ == "__main__":
-    video_llava = Cls.lookup("video-llava", 'VideoLlava')()
+    video_llava = Cls.lookup("updated-video-llava", 'VideoLlava')()
     video_path = '/volume/pika_water_city.mp4'
     print(video_llava.inference.remote(video_path=video_path, inp="describe what is going on in this video"))
