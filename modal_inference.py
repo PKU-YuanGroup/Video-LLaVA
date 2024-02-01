@@ -145,7 +145,7 @@ class VideoLlava:
         self.conv.append_message(self.conv.roles[0], inp)
         self.conv.append_message(self.conv.roles[1], None)
         prompt = self.conv.get_prompt()
-        input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX['VIDEO'], return_tensors='pt').unsqueeze(0).cuda()
+        input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
         stop_str = self.conv.sep if self.conv.sep_style != SeparatorStyle.TWO else self.conv.sep2
         keywords = [stop_str]
         stopping_criteria = KeywordsStoppingCriteria(keywords, self.tokenizer, input_ids)

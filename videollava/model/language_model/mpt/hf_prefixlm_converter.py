@@ -195,7 +195,7 @@ def _convert_bloom_causal_lm_to_prefix_lm(model: BloomForCausalLM) -> BloomForCa
             attention_mask = attention_mask.to(hidden_states.device)
         alibi = self._build_alibi_tensor(batch_size=batch_size, query_length=seq_length, key_length=seq_length_with_past, dtype=hidden_states.dtype, device=hidden_states.device)
         # causal_mask = self._prepare_attn_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), past_key_values_length=past_key_values_length)
-        causal_mask = _prepare_4d_causal_attention_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), inpust_embeds=inputs_embeds, past_key_values_length=past_key_values_length)
+        causal_mask = _prepare_4d_causal_attention_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), inputs_embeds=inputs_embeds, past_key_values_length=past_key_values_length)
         causal_mask = causal_mask.bool()
         for (i, (block, layer_past)) in enumerate(zip(self.h, past_key_values)):
             if output_hidden_states:
