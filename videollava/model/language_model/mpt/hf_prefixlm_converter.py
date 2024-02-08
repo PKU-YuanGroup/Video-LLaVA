@@ -12,16 +12,16 @@ from types import MethodType
 from typing import Any, Dict, List, Optional, Tuple, Union
 import torch
 from transformers.models.bloom.modeling_bloom import BaseModelOutputWithPastAndCrossAttentions, BloomForCausalLM, BloomModel, CausalLMOutputWithCrossAttentions, CrossEntropyLoss
-#from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
-#from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
+from transformers.models.bloom.modeling_bloom import _expand_mask as _expand_mask_bloom
+from transformers.models.bloom.modeling_bloom import _make_causal_mask as _make_causal_mask_bloom
 from transformers.models.bloom.modeling_bloom import logging
 from transformers.models.gpt2.modeling_gpt2 import GPT2LMHeadModel
 from transformers.models.gpt_neo.modeling_gpt_neo import GPTNeoForCausalLM
 from transformers.models.gpt_neox.modeling_gpt_neox import GPTNeoXForCausalLM
 from transformers.models.gptj.modeling_gptj import GPTJForCausalLM
 from transformers.models.opt.modeling_opt import OPTForCausalLM
-#from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
-#from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
+from transformers.models.opt.modeling_opt import _expand_mask as _expand_mask_opt
+from transformers.models.opt.modeling_opt import _make_causal_mask as _make_causal_mask_opt
 logger = logging.get_logger(__name__)
 _SUPPORTED_GPT_MODELS = (GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM)
 CAUSAL_GPT_TYPES = Union[GPT2LMHeadModel, GPTJForCausalLM, GPTNeoForCausalLM, GPTNeoXForCausalLM]
@@ -123,19 +123,19 @@ def _convert_bloom_causal_lm_to_prefix_lm(model: BloomForCausalLM) -> BloomForCa
     assert isinstance(model, BloomForCausalLM)
     assert model.config.add_cross_attention == False, 'Only supports BLOOM decoder-only models'
 
-    #  def _prepare_attn_mask(self: BloomModel, attention_mask: torch.Tensor, bidirectional_mask: Optional[torch.Tensor], input_shape: Tuple[int, int], past_key_values_length: int) -> torch.BoolTensor:
-        #  combined_attention_mask = None
-        #  device = attention_mask.device
-        #  (_, src_length) = input_shape
-        #  if src_length > 1:
-            #  combined_attention_mask = _make_causal_mask_bloom(input_shape, device=device, past_key_values_length=past_key_values_length)
-            #  if bidirectional_mask is not None:
-                #  assert attention_mask.shape == bidirectional_mask.shape
-                #  expanded_bidirectional_mask = _expand_mask_bloom(bidirectional_mask, tgt_length=src_length)
-                #  combined_attention_mask = torch.logical_and(combined_attention_mask, expanded_bidirectional_mask)
-        #  expanded_attn_mask = _expand_mask_bloom(attention_mask, tgt_length=src_length)
-        #  combined_attention_mask = expanded_attn_mask if combined_attention_mask is None else expanded_attn_mask | combined_attention_mask
-        #  return combined_attention_mask
+    def _prepare_attn_mask(self: BloomModel, attention_mask: torch.Tensor, bidirectional_mask: Optional[torch.Tensor], input_shape: Tuple[int, int], past_key_values_length: int) -> torch.BoolTensor:
+        combined_attention_mask = None
+        device = attention_mask.device
+        (_, src_length) = input_shape
+        if src_length > 1:
+            combined_attention_mask = _make_causal_mask_bloom(input_shape, device=device, past_key_values_length=past_key_values_length)
+            if bidirectional_mask is not None:
+                assert attention_mask.shape == bidirectional_mask.shape
+                expanded_bidirectional_mask = _expand_mask_bloom(bidirectional_mask, tgt_length=src_length)
+                combined_attention_mask = torch.logical_and(combined_attention_mask, expanded_bidirectional_mask)
+        expanded_attn_mask = _expand_mask_bloom(attention_mask, tgt_length=src_length)
+        combined_attention_mask = expanded_attn_mask if combined_attention_mask is None else expanded_attn_mask | combined_attention_mask
+        return combined_attention_mask
 
     def _build_alibi_tensor(self: BloomModel, batch_size: int, query_length: int, key_length: int, dtype: torch.dtype, device: torch.device) -> torch.Tensor:
         num_heads = self.config.n_head
@@ -194,9 +194,7 @@ def _convert_bloom_causal_lm_to_prefix_lm(model: BloomForCausalLM) -> BloomForCa
         else:
             attention_mask = attention_mask.to(hidden_states.device)
         alibi = self._build_alibi_tensor(batch_size=batch_size, query_length=seq_length, key_length=seq_length_with_past, dtype=hidden_states.dtype, device=hidden_states.device)
-        # causal_mask = self._prepare_attn_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), past_key_values_length=past_key_values_length)
-        causal_mask = _prepare_4d_causal_attention_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), inputs_embeds=inputs_embeds, past_key_values_length=past_key_values_length)
-        causal_mask = causal_mask.bool()
+        causal_mask = self._prepare_attn_mask(attention_mask, bidirectional_mask, input_shape=(batch_size, seq_length), past_key_values_length=past_key_values_length)
         for (i, (block, layer_past)) in enumerate(zip(self.h, past_key_values)):
             if output_hidden_states:
                 hst = (hidden_states,)
@@ -227,7 +225,7 @@ def _convert_bloom_causal_lm_to_prefix_lm(model: BloomForCausalLM) -> BloomForCa
         if not return_dict:
             return tuple((v for v in [hidden_states, presents, all_hidden_states, all_self_attentions] if v is not None))
         return BaseModelOutputWithPastAndCrossAttentions(last_hidden_state=hidden_states, past_key_values=presents, hidden_states=all_hidden_states, attentions=all_self_attentions)
-    # setattr(model.transformer, '_prepare_attn_mask', MethodType(_prepare_attn_mask, model.transformer))
+    setattr(model.transformer, '_prepare_attn_mask', MethodType(_prepare_attn_mask, model.transformer))
     setattr(model.transformer, '_build_alibi_tensor', MethodType(_build_alibi_tensor, model.transformer))
     setattr(model.transformer, 'forward', MethodType(forward, model.transformer))
     KeyValueT = Tuple[torch.Tensor, torch.Tensor]
@@ -284,23 +282,23 @@ def _convert_opt_causal_lm_to_prefix_lm(model: OPTForCausalLM) -> OPTForCausalLM
     setattr(model, '_original_generate', getattr(model, 'generate'))
     model.model.decoder.bidirectional_mask = None
 
-    #  def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
-        #  combined_attention_mask = None
-        #  if input_shape[-1] > 1:
-            #  if self.bidirectional_mask == 'g':
-                #  (bsz, src_length) = input_shape
-                #  combined_attention_mask = torch.zeros((bsz, 1, src_length, src_length + past_key_values_length), dtype=inputs_embeds.dtype, device=inputs_embeds.device)
-            #  else:
-                #  combined_attention_mask = _make_causal_mask_opt(input_shape, inputs_embeds.dtype, past_key_values_length=past_key_values_length).to(inputs_embeds.device)
-                #  if self.bidirectional_mask is not None:
-                    #  assert attention_mask.shape == self.bidirectional_mask.shape
-                    #  expanded_bidirectional_mask = _expand_mask_opt(self.bidirectional_mask, inputs_embeds.dtype, tgt_len=input_shape[-1]).to(inputs_embeds.device)
-                    #  combined_attention_mask = torch.maximum(expanded_bidirectional_mask, combined_attention_mask)
-        #  if attention_mask is not None:
-            #  expanded_attn_mask = _expand_mask_opt(attention_mask, inputs_embeds.dtype, tgt_len=input_shape[-1]).to(inputs_embeds.device)
-            #  combined_attention_mask = expanded_attn_mask if combined_attention_mask is None else expanded_attn_mask + combined_attention_mask
-        #  return combined_attention_mask
-    setattr(model.model.decoder, '_prepare_decoder_attention_mask', MethodType(_prepare_4d_causal_attention_mask, model.model.decoder))
+    def _prepare_decoder_attention_mask(self, attention_mask, input_shape, inputs_embeds, past_key_values_length):
+        combined_attention_mask = None
+        if input_shape[-1] > 1:
+            if self.bidirectional_mask == 'g':
+                (bsz, src_length) = input_shape
+                combined_attention_mask = torch.zeros((bsz, 1, src_length, src_length + past_key_values_length), dtype=inputs_embeds.dtype, device=inputs_embeds.device)
+            else:
+                combined_attention_mask = _make_causal_mask_opt(input_shape, inputs_embeds.dtype, past_key_values_length=past_key_values_length).to(inputs_embeds.device)
+                if self.bidirectional_mask is not None:
+                    assert attention_mask.shape == self.bidirectional_mask.shape
+                    expanded_bidirectional_mask = _expand_mask_opt(self.bidirectional_mask, inputs_embeds.dtype, tgt_len=input_shape[-1]).to(inputs_embeds.device)
+                    combined_attention_mask = torch.maximum(expanded_bidirectional_mask, combined_attention_mask)
+        if attention_mask is not None:
+            expanded_attn_mask = _expand_mask_opt(attention_mask, inputs_embeds.dtype, tgt_len=input_shape[-1]).to(inputs_embeds.device)
+            combined_attention_mask = expanded_attn_mask if combined_attention_mask is None else expanded_attn_mask + combined_attention_mask
+        return combined_attention_mask
+    setattr(model.model.decoder, '_prepare_decoder_attention_mask', MethodType(_prepare_decoder_attention_mask, model.model.decoder))
 
     def forward(self: OPTForCausalLM, input_ids: Optional[torch.LongTensor]=None, attention_mask: Optional[torch.Tensor]=None, bidirectional_mask: Optional[torch.ByteTensor]=None, head_mask: Optional[torch.Tensor]=None, past_key_values: Optional[List[torch.FloatTensor]]=None, inputs_embeds: Optional[torch.FloatTensor]=None, labels: Optional[torch.LongTensor]=None, use_cache: Optional[bool]=None, output_attentions: Optional[bool]=None, output_hidden_states: Optional[bool]=None, return_dict: Optional[bool]=None):
 
