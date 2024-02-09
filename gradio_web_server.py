@@ -3,9 +3,12 @@ import os
 import tempfile
 
 from modal import asgi_app, method, enter
-from .stub import stub
-from .stub import VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, REPO_HOME, EXAMPLES_PATH
+from stub import stub, VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, REPO_HOME, EXAMPLES_PATH
 from pathlib import Path
+VOLUME_DIR = "volume"
+MODEL_CACHE = "models"
+Path(VOLUME_DIR).mkdir(exist_ok=True, parents=True)
+Path(MODEL_CACHE).mkdir(exist_ok=True, parents=True)
 
 
 def save_image_to_local(image):
@@ -23,22 +26,24 @@ def save_video_to_local(video_path):
     return filename
 
 
-@cls_dec(gpu="any")
+#@cls_dec(gpu="any")
 class VideoLlavaModel:
-    @enter()
+    def __init__(self):
+        self.load_model()
+    #@enter()
     def load_model(self):
         import torch
         from videollava.serve.gradio_utils import Chat
         self.conv_mode = "llava_v1"
         model_path = 'LanguageBind/Video-LLaVA-7B'
         device = 'cuda'
-        load_8bit = True
-        load_4bit = False
+        load_8bit = False
+        load_4bit = True
         self.dtype = torch.float16
         self.handler = Chat(model_path, conv_mode=self.conv_mode, load_8bit=load_8bit, load_4bit=load_4bit, device=device, cache_dir=MODEL_CACHE)
         # self.handler.model.to(dtype=self.dtype)
 
-    @method()
+    #method()
     def generate(self, image1, video, textbox_in, first_run, state, state_, images_tensor):
         from videollava.conversation import conv_templates, Conversation
         import gradio as gr
@@ -128,7 +133,7 @@ class VideoLlavaModel:
 
         return (state, state_, state.to_gradio_chatbot(), False, gr.update(value=None, interactive=True), images_tensor, gr.update(value=image1 if os.path.exists(image1) else None, interactive=True), gr.update(value=video if os.path.exists(video) else None, interactive=True))
 
-    @method()
+    #@method()
     def clear_history(self, state, state_):
         from videollava.conversation import conv_templates
         import gradio as gr
@@ -176,8 +181,8 @@ def build_gradio_interface(model):
                 image1 = gr.Image(label="Input Image", type="filepath")
                 video = gr.Video(label="Input Video")
 
-                #cur_dir = Path(REPO_HOME, 'videollava', 'serve')
-                cur_dir = EXAMPLES_PATH
+                cur_dir = Path(__file__).parent / 'videollava' / 'serve' / 'examples'
+                #cur_dir = EXAMPLES_PATH
                 gr.Examples(
                     examples=[
                         [
@@ -258,26 +263,23 @@ def build_gradio_interface(model):
         gr.Markdown(tos_markdown)
         gr.Markdown(learn_more_markdown)
 
-        submit_btn.click(model.generate.remote, [image1, video, textbox, first_run, state, state_, images_tensor],
+        submit_btn.click(model.generate, [image1, video, textbox, first_run, state, state_, images_tensor],
                          [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
 
         regenerate_btn.click(regenerate, [state, state_], [state, state_, chatbot, first_run]).then(
-            model.generate.remote, [image1, video, textbox, first_run, state, state_, images_tensor], [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
+            model.generate, [image1, video, textbox, first_run, state, state_, images_tensor], [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
 
-        clear_btn.click(model.clear_history.remote, [state, state_],
+        clear_btn.click(model.clear_history, [state, state_],
                         [image1, video, textbox, first_run, state, state_, chatbot, images_tensor])
     return interface
 
 
-@function_dec(gpu="any")
-@asgi_app()
 def fastapi_app():
     from gradio.routes import mount_gradio_app
     import fastapi.staticfiles
     from fastapi import FastAPI
     app = FastAPI()
 
-    model = VideoLlavaModel()
     #  interface = gr.Interface(
         #  fn=classifier.predict.remote,
         #  inputs=gr.Image(shape=(224, 224)),
@@ -290,14 +292,29 @@ def fastapi_app():
         #  return model.generate.remote(video_path, prompt)
 
 
-    app.mount("/assets", fastapi.staticfiles.StaticFiles(directory="/assets"))
-    return mount_gradio_app(
-        app=app,
+    app.mount("/assets", fastapi.staticfiles.StaticFiles(directory="assets"))
+    app.mount("/examples", fastapi.staticfiles.StaticFiles(directory="videollava/serve"))
+    return app
+
+#if __name__ == '__main__':
+fast_api_app = fastapi_app()
+model = VideoLlavaModel()
+
+@function_dec(gpu="any")
+@asgi_app()
+def fastapi_app_modal():
+    mount_gradio_app(
+        app=fastapi_app(),
         blocks=build_gradio_interface(model),
         path="/gradio",
     )
-# app = gr.mount_gradio_app(app, demo, path="/")
-# demo.launch()
 
-# uvicorn videollava.serve.gradio_web_server:app
-# python -m  videollava.serve.gradio_web_server
+
+
+if __name__ == '__main__':
+    demo = build_gradio_interface(model)
+    demo.launch(share=True)
+
+# poetry shell
+# uvicorn gradio_web_server:app
+# python -m  gradio_web_server
