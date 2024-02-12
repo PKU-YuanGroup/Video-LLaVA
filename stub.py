@@ -1,20 +1,34 @@
-from modal import Volume, Image, Stub, Mount, Secret
+from modal import Volume, Image, Stub, Mount, Secret, S3Mount
+import os
 from pathlib import Path
+try:
+    from dotenv import load_dotenv
+    if os.environ.get("ENV") in ["dev", "prod"]:
+        env_file = Path(__file__).parent.parent.parent / ".env"
+    else:
+        env_file = Path(__file__).parent.parent.parent / ".env.local"
+    load_dotenv(env_file)
+except ImportError:
+    pass
+
+
 REPO_HOME = "/app"
 VOLUME_DIR = "/volume"
 MODELS_DIR = "/root"
 HF_DATASETS_CACHE = str(Path(VOLUME_DIR) / "hf_datasets_cache")
 MODEL_CACHE = Path(VOLUME_DIR, "models")
-assets_path = Path(__file__).parent /  "assets"
-local_examples_path = Path(__file__).parent /  "videollava" / "serve" / "examples"
-EXAMPLES_PATH = "/examples"
+S3_VIDEO_PATH = "/s3-videos"
 mounts = [
     Mount.from_local_dir("./ai_video_editor/updated_video_llava", remote_path=REPO_HOME),
-    Mount.from_local_dir(assets_path, remote_path="/assets"),
-    Mount.from_local_dir(local_examples_path, remote_path=EXAMPLES_PATH),
 ]
 volume = Volume.persisted("video-llava-vol")
-volumes = {VOLUME_DIR: volume}
+volumes = {
+    VOLUME_DIR: volume,
+    S3_VIDEO_PATH: S3Mount(
+        os.environ["TRIMIT_VIDEO_S3_BUCKET"],
+        secret=Secret.from_dotenv(),
+        read_only=True)
+}
 stub = Stub("updated-video-llava", mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv()])
 
 

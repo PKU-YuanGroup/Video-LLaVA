@@ -2,14 +2,14 @@ import os
 import urllib
 
 from modal import asgi_app, method, enter, build
-from .stub import VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, volume
+from .stub import S3_VIDEO_PATH, MODEL_CACHE, cls_dec, function_dec, volume, stub
 from pathlib import Path
 # for local testing
-#VOLUME_DIR = "volume"
+#S3_VIDEO_PATH= "s3_videos"
 #MODEL_CACHE = "models"
 #Path(VOLUME_DIR).mkdir(exist_ok=True, parents=True)
-VIDEOS_DIR = Path(VOLUME_DIR) / "videos"
-IMAGES_DIR = Path(VOLUME_DIR) / "images"
+VIDEOS_DIR = Path(S3_VIDEO_PATH) / "videos"
+IMAGES_DIR = Path(S3_VIDEO_PATH) / "images"
 
 
 @cls_dec(gpu="any")
