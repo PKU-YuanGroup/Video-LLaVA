@@ -1,6 +1,8 @@
 import shutil
 import os
 import tempfile
+import urllib
+import aiofiles
 
 from modal import asgi_app, method, enter
 from stub import stub, VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, REPO_HOME, EXAMPLES_PATH
@@ -9,21 +11,10 @@ VOLUME_DIR = "volume"
 MODEL_CACHE = "models"
 Path(VOLUME_DIR).mkdir(exist_ok=True, parents=True)
 Path(MODEL_CACHE).mkdir(exist_ok=True, parents=True)
-
-
-def save_image_to_local(image):
-    from PIL import Image
-    filename = os.path.join(VOLUME_DIR, next(tempfile._get_candidate_names()) + '.jpg')
-    image = Image.open(image)
-    image.save(filename)
-    # print(filename)
-    return filename
-
-
-def save_video_to_local(video_path):
-    filename = os.path.join(VOLUME_DIR, next(tempfile._get_candidate_names()) + '.mp4')
-    shutil.copyfile(video_path, filename)
-    return filename
+VIDEOS_DIR = Path(VOLUME_DIR) / "videos"
+IMAGES_DIR = Path(VOLUME_DIR) / "images"
+VIDEOS_DIR.mkdir(exist_ok=True, parents=True)
+IMAGES_DIR.mkdir(exist_ok=True, parents=True)
 
 
 #@cls_dec(gpu="any")
@@ -43,39 +34,19 @@ class VideoLlavaModel:
         self.handler = Chat(model_path, conv_mode=self.conv_mode, load_8bit=load_8bit, load_4bit=load_4bit, device=device, cache_dir=MODEL_CACHE)
         # self.handler.model.to(dtype=self.dtype)
 
-    #method()
-    def generate(self, image1, video, textbox_in, first_run, state, state_, images_tensor):
+    def generate(self, image1, video, textbox_in):
         from videollava.conversation import conv_templates, Conversation
         import gradio as gr
         from videollava.constants import DEFAULT_IMAGE_TOKEN
-        flag = 1
         if not textbox_in:
-            if len(state_.messages) > 0:
-                textbox_in = state_.messages[-1][1]
-                state_.messages.pop(-1)
-                flag = 0
-            else:
-                return "Please enter instruction"
+            raise ValueError("no prompt provided")
 
-        print("textbox_in", textbox_in)
-        print("video path ", video)
-        print("image path ", image1)
         image1 = image1 if image1 else "none"
         video = video if video else "none"
-        print("video path after checking", video)
-        print("os.path.exists(video)", os.path.exists(video))
-        if os.path.exists('/assets'):
-            print('assets dir', os.listdir('/assets'))
-        else:
-            print('no assets dir')
-        # assert not (os.path.exists(image1) and os.path.exists(video))
 
-        if type(state) is not Conversation:
-            state = conv_templates[self.conv_mode].copy()
-            state_ = conv_templates[self.conv_mode].copy()
-            images_tensor = []
-
-        first_run = False if len(state.messages) > 0 else True
+        state = conv_templates[self.conv_mode].copy()
+        state_ = conv_templates[self.conv_mode].copy()
+        images_tensor = []
 
         text_en_in = textbox_in.replace("picture", "image")
 
@@ -113,208 +84,72 @@ class VideoLlavaModel:
             print("WARNING: No image or video supplied")
 
         print(text_en_in)
-        text_en_out, state_ = self.handler.generate(images_tensor, text_en_in, first_run=first_run, state=state_)
-        state_.messages[-1] = (state_.roles[1], text_en_out)
+        text_en_out, _ = self.handler.generate(images_tensor, text_en_in, first_run=True, state=state_)
 
         text_en_out = text_en_out.split('#')[0]
         textbox_out = text_en_out
 
-        show_images = ""
-        if os.path.exists(image1):
-            filename = save_image_to_local(image1)
-            show_images += f'<img src="./file={filename}" style="display: inline-block;width: 250px;max-height: 400px;">'
-        if os.path.exists(video):
-            filename = save_video_to_local(video)
-            show_images += f'<video controls playsinline width="500" style="display: inline-block;"  src="./file={filename}"></video>'
-
-        if flag:
-            state.append_message(state.roles[0], textbox_in + "\n" + show_images)
-        state.append_message(state.roles[1], textbox_out)
-
-        return (state, state_, state.to_gradio_chatbot(), False, gr.update(value=None, interactive=True), images_tensor, gr.update(value=image1 if os.path.exists(image1) else None, interactive=True), gr.update(value=video if os.path.exists(video) else None, interactive=True))
-
-    #@method()
-    def clear_history(self, state, state_):
-        from videollava.conversation import conv_templates
-        import gradio as gr
-        state = conv_templates[self.conv_mode].copy()
-        state_ = conv_templates[self.conv_mode].copy()
-        return (gr.update(value=None, interactive=True),
-                gr.update(value=None, interactive=True), \
-                gr.update(value=None, interactive=True), \
-                True, state, state_, state.to_gradio_chatbot(), [])
+        return textbox_out
 
 
 
-
-def regenerate(state, state_):
-    state.messages.pop(-1)
-    state_.messages.pop(-1)
-    if len(state.messages) > 0:
-        return state, state_, state.to_gradio_chatbot(), False
-    return (state, state_, state.to_gradio_chatbot(), True)
-
-
-
-
-
-def build_gradio_interface(model):
-    import gradio as gr
-    from videollava.serve.gradio_utils import tos_markdown, learn_more_markdown, title_markdown, block_css
-
-    #  if not os.path.exists("temp"):
-        #  os.makedirs("temp")
-
-
-    textbox = gr.Textbox(
-        show_label=False, placeholder="Enter text and press ENTER", container=False
-    )
-    with gr.Blocks(title='Video-LLaVA🚀', theme=gr.themes.Default(), css=block_css) as interface:
-        gr.Markdown(title_markdown)
-        state = gr.State()
-        state_ = gr.State()
-        first_run = gr.State()
-        images_tensor = gr.State()
-
-        with gr.Row():
-            with gr.Column(scale=3):
-                image1 = gr.Image(label="Input Image", type="filepath")
-                video = gr.Video(label="Input Video")
-
-                cur_dir = Path(__file__).parent / 'videollava' / 'serve' / 'examples'
-                #cur_dir = EXAMPLES_PATH
-                gr.Examples(
-                    examples=[
-                        [
-                            f"{cur_dir}/extreme_ironing.jpg",
-                            "What is unusual about this image?",
-                        ],
-                        [
-                            f"{cur_dir}/waterview.jpg",
-                            "What are the things I should be cautious about when I visit here?",
-                        ],
-                        [
-                            f"{cur_dir}/desert.jpg",
-                            "If there are factual errors in the questions, point it out; if not, proceed answering the question. What’s happening in the desert?",
-                        ],
-                    ],
-                    inputs=[image1, textbox],
-                )
-
-            with gr.Column(scale=7):
-                chatbot = gr.Chatbot(label="Video-LLaVA", height=750)
-                with gr.Row():
-                    with gr.Column(scale=8):
-                        textbox.render()
-                    with gr.Column(scale=1, min_width=50):
-                        submit_btn = gr.Button(
-                            value="Send", variant="primary", interactive=True
-                        )
-                with gr.Row(elem_id="buttons") as button_row:
-                    upvote_btn = gr.Button(value="👍  Upvote", interactive=True)
-                    downvote_btn = gr.Button(value="👎  Downvote", interactive=True)
-                    flag_btn = gr.Button(value="⚠️  Flag", interactive=True)
-                    # stop_btn = gr.Button(value="⏹️  Stop Generation", interactive=False)
-                    regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=True)
-                    clear_btn = gr.Button(value="🗑️  Clear history", interactive=True)
-
-        with gr.Row():
-            gr.Examples(
-                examples=[
-                    [
-                        f"{cur_dir}/sample_img_22.png",
-                        f"{cur_dir}/sample_demo_22.mp4",
-                        "Are the instruments in the pictures used in the video?",
-                    ],
-                    [
-                        f"{cur_dir}/sample_img_13.png",
-                        f"{cur_dir}/sample_demo_13.mp4",
-                        "Does the flag in the image appear in the video?",
-                    ],
-                    [
-                        f"{cur_dir}/sample_img_8.png",
-                        f"{cur_dir}/sample_demo_8.mp4",
-                        "Are the image and the video depicting the same place?",
-                    ],
-                ],
-                inputs=[image1, video, textbox],
-            )
-            gr.Examples(
-                examples=[
-                    [
-                        f"{cur_dir}/sample_demo_1.mp4",
-                        "Why is this video funny?",
-                    ],
-                    [
-                        f"{cur_dir}/sample_demo_3.mp4",
-                        "Can you identify any safety hazards in this video?"
-                    ],
-                    [
-                        f"{cur_dir}/sample_demo_9.mp4",
-                        "Describe the video.",
-                    ],
-                    [
-                        f"{cur_dir}/sample_demo_22.mp4",
-                        "Describe the activity in the video.",
-                    ],
-                ],
-                inputs=[video, textbox],
-            )
-        gr.Markdown(tos_markdown)
-        gr.Markdown(learn_more_markdown)
-
-        submit_btn.click(model.generate, [image1, video, textbox, first_run, state, state_, images_tensor],
-                         [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
-
-        regenerate_btn.click(regenerate, [state, state_], [state, state_, chatbot, first_run]).then(
-            model.generate, [image1, video, textbox, first_run, state, state_, images_tensor], [state, state_, chatbot, first_run, textbox, images_tensor, image1, video])
-
-        clear_btn.click(model.clear_history, [state, state_],
-                        [image1, video, textbox, first_run, state, state_, chatbot, images_tensor])
-    return interface
-
-
-def fastapi_app():
+def fastapi_app(model):
     from gradio.routes import mount_gradio_app
     import fastapi.staticfiles
-    from fastapi import FastAPI
+    from fastapi import FastAPI, UploadFile, File, Request, Form, Query, HTTPException
+    from fastapi.responses import StreamingResponse
     app = FastAPI()
+    model = VideoLlavaModel()
 
-    #  interface = gr.Interface(
-        #  fn=classifier.predict.remote,
-        #  inputs=gr.Image(shape=(224, 224)),
-        #  outputs="label",
-        #  examples=create_demo_examples(),
-        #  css="/assets/index.css",
-    #  )
-    #  @app.get("/inference")
-    #  async def inference(video_path: str, prompt: str):
-        #  return model.generate.remote(video_path, prompt)
+    @app.post("/upload")
+    async def upload(
+        file: UploadFile = File(...),
+    ):
+        filename_decoded = urllib.parse.unquote(file.filename)
+        file_path = str(VIDEOS_DIR / filename_decoded)
+        async with aiofiles.open(file_path, "wb") as buffer:
+            while content := await file.read(1024):  # Read chunks of 1024 bytes
+                await buffer.write(content)
+        return {"file_path": file_path}
+
+    @app.post("/inference")
+    async def inference(
+        video_file_name: str = '',
+        video_file_path: str = '',
+        image_file_name: str = '',
+        image_file_path: str = '',
+        prompt: str = '',
+    ):
+        video_file_name = urllib.parse.unquote(video_file_name)
+        video_file_path = urllib.parse.unquote(video_file_path)
+        if video_file_path is None or video_file_path == '':
+            if video_file_name is None or video_file_name == '':
+                raise ValueError("one of video_file_path or video_file_name must be specified")
+            video_file_path = str(VIDEOS_DIR / video_file_name)
+
+        image_file_name = urllib.parse.unquote(image_file_name)
+        image_file_path = urllib.parse.unquote(image_file_path)
+        if image_file_path is None or image_file_path == '':
+            if image_file_name is not None and image_file_name != '':
+                image_file_path = str(IMAGES_DIR / image_file_name)
+
+        return model.generate(image_file_path, video_file_path, prompt)
 
 
     app.mount("/assets", fastapi.staticfiles.StaticFiles(directory="assets"))
     app.mount("/examples", fastapi.staticfiles.StaticFiles(directory="videollava/serve"))
     return app
 
-#if __name__ == '__main__':
-fast_api_app = fastapi_app()
-model = VideoLlavaModel()
+
+
+
+# comment this out to deploy
+app = fastapi_app()
 
 @function_dec(gpu="any")
 @asgi_app()
 def fastapi_app_modal():
-    mount_gradio_app(
-        app=fastapi_app(),
-        blocks=build_gradio_interface(model),
-        path="/gradio",
-    )
+    app = fastapi_app()
 
-
-
-if __name__ == '__main__':
-    demo = build_gradio_interface(model)
-    demo.launch(share=True)
-
-# poetry shell
-# uvicorn gradio_web_server:app
-# python -m  gradio_web_server
+# conda activate videollava
+# uvicorn modal_inference:app
