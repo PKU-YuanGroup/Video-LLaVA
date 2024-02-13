@@ -29,7 +29,7 @@ volumes = {
         secret=Secret.from_dotenv(),
         read_only=True)
 }
-stub = Stub("updated-video-llava", mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv()])
+stub = Stub("video-llava", mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv()])
 
 
 def remove_old_files():
