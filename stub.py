@@ -19,7 +19,7 @@ HF_DATASETS_CACHE = str(Path(VOLUME_DIR) / "hf_datasets_cache")
 MODEL_CACHE = Path(VOLUME_DIR, "models")
 S3_VIDEO_PATH = "/s3-videos"
 mounts = [
-    Mount.from_local_dir("./ai_video_editor/updated_video_llava", remote_path=REPO_HOME),
+    Mount.from_local_dir("./ai_video_editor/video_llava", remote_path=REPO_HOME),
 ]
 volume = Volume.persisted("video-llava-vol")
 volumes = {
