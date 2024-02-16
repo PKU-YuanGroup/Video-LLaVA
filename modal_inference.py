@@ -2,7 +2,7 @@ import os
 import urllib
 
 from modal import asgi_app, method, enter, build
-from .stub import S3_VIDEO_PATH, MODEL_CACHE, cls_dec, function_dec, volume, stub
+from .image import S3_VIDEO_PATH, MODEL_CACHE, cls_dec, function_dec, volume, stub
 from pathlib import Path
 # for local testing
 #S3_VIDEO_PATH= "s3_videos"
@@ -113,8 +113,6 @@ def fastapi_app():
         image_file_path: str = '',
         prompt: str = '',
     ):
-        import requests
-        requests.get('https://huggingface.co/LanguageBind/Video-LLaVA-7B/resolve/main/config.json').raise_for_status()
         video_file_name = urllib.parse.unquote(video_file_name)
         video_file_path = urllib.parse.unquote(video_file_path)
         if video_file_path is None or video_file_path == '':
