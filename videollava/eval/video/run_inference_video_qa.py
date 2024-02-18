@@ -7,7 +7,7 @@ import torch
 import transformers
 from tqdm import tqdm
 from videollava.conversation import conv_templates, SeparatorStyle
-from videollava.constants import DEFAULT_IM_START_TOKEN, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_END_TOKEN, IMAGE_TOKEN_INDEX
+from videollava.constants import DEFAULT_IM_START_TOKEN, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_END_TOKEN, IMAGE_TOKEN_INDEX, DEFAULT_VID_START_TOKEN, DEFAULT_VID_END_TOKEN
 from videollava.mm_utils import get_model_name_from_path, tokenizer_image_token, KeywordsStoppingCriteria
 from videollava.model.builder import load_pretrained_model
 from videollava.model.language_model.llava_llama import LlavaLlamaForCausalLM
@@ -48,7 +48,7 @@ def parse_args():
 
 def get_model_output(model, video_processor, tokenizer, video, qs, args):
     if model.config.mm_use_im_start_end:
-        qs = DEFAULT_X_START_TOKEN['VIDEO'] + ''.join([DEFAULT_IMAGE_TOKEN]*8) + DEFAULT_X_END_TOKEN['VIDEO'] + '\n' + qs
+        qs = DEFAULT_VID_START_TOKEN + ''.join([DEFAULT_IMAGE_TOKEN]*8) + DEFAULT_VID_END_TOKEN + '\n' + qs
     else:
         qs = ''.join([DEFAULT_IMAGE_TOKEN]*8) + '\n' + qs
 
@@ -68,19 +68,13 @@ def get_model_output(model, video_processor, tokenizer, video, qs, args):
     stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
     keywords = [stop_str]
     stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
-    '''
-    images (X_modalities) [
-            [img_feature, img_feature, video_feature, audio_feature],
-            ['image', 'image', 'video', 'audio']
-            ]
-    '''
 
     with torch.inference_mode():
         output_ids = model.generate(
             input_ids,
             images=[video_tensor],
             do_sample=True,
-            temperature=0.2,
+            temperature=0.0,
             max_new_tokens=1024,
             use_cache=True,
             stopping_criteria=[stopping_criteria])
