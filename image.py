@@ -19,7 +19,7 @@ volume = Volume.persisted("video-llava-vol")
 volumes = {
     VOLUME_DIR: volume,
     S3_VIDEO_PATH: S3Mount(
-        os.environ["TRIMIT_VIDEO_S3_BUCKET"],
+        os.environ.get("TRIMIT_VIDEO_S3_BUCKET", ''),
         secret=Secret.from_dotenv(),
         read_only=True)
 }
