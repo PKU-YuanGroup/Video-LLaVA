@@ -1,7 +1,7 @@
 from modal import Volume, Image, Stub, Mount, Secret, S3Mount
 import os
 from pathlib import Path
-from ai_video_editor.utils.conf import ENV
+from ai_video_editor.utils.conf import DOTENV_FILE, ENV
 
 REPO_HOME = "/app"
 VOLUME_DIR = "/volume"
@@ -9,9 +9,7 @@ MODELS_DIR = "/root"
 HF_DATASETS_CACHE = str(Path(VOLUME_DIR) / "hf_datasets_cache")
 MODEL_CACHE = Path(VOLUME_DIR, "models")
 S3_VIDEO_PATH = "/s3-videos"
-#VIDEO_LLAVA_STUB_NAME = f"video-llava-{ENV}"
-# TODO once deploys are working
-VIDEO_LLAVA_STUB_NAME = f"video-llava"
+VIDEO_LLAVA_STUB_NAME = f"video-llava-{ENV}"
 mounts = [
     Mount.from_local_dir("./ai_video_editor/video_llava", remote_path=REPO_HOME),
 ]
@@ -20,10 +18,10 @@ volumes = {
     VOLUME_DIR: volume,
     S3_VIDEO_PATH: S3Mount(
         os.environ.get("TRIMIT_VIDEO_S3_BUCKET", ''),
-        secret=Secret.from_dotenv(),
+        secret=Secret.from_dotenv(path=DOTENV_FILE),
         read_only=True)
 }
-stub = Stub(VIDEO_LLAVA_STUB_NAME, mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv()])
+stub = Stub(VIDEO_LLAVA_STUB_NAME, mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv(path=DOTENV_FILE)])
 
 
 def remove_old_files():
