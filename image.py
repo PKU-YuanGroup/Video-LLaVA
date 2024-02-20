@@ -1,16 +1,7 @@
 from modal import Volume, Image, Stub, Mount, Secret, S3Mount
 import os
 from pathlib import Path
-try:
-    from dotenv import load_dotenv
-    if os.environ.get("ENV") in ["dev", "prod"]:
-        env_file = Path(__file__).parent.parent.parent / ".env"
-    else:
-        env_file = Path(__file__).parent.parent.parent / ".env.local"
-    load_dotenv(env_file)
-except ImportError:
-    pass
-
+from ai_video_editor.utils.conf import ENV
 
 REPO_HOME = "/app"
 VOLUME_DIR = "/volume"
@@ -18,7 +9,9 @@ MODELS_DIR = "/root"
 HF_DATASETS_CACHE = str(Path(VOLUME_DIR) / "hf_datasets_cache")
 MODEL_CACHE = Path(VOLUME_DIR, "models")
 S3_VIDEO_PATH = "/s3-videos"
-VIDEO_LLAVA_STUB_NAME = "video-llava"
+#VIDEO_LLAVA_STUB_NAME = f"video-llava-{ENV}"
+# TODO once deploys are working
+VIDEO_LLAVA_STUB_NAME = f"video-llava"
 mounts = [
     Mount.from_local_dir("./ai_video_editor/video_llava", remote_path=REPO_HOME),
 ]
