@@ -1,7 +1,7 @@
 from modal import Volume, Image, Stub, Mount, Secret, S3Mount
 import os
 from pathlib import Path
-from ai_video_editor.utils.conf import DOTENV_FILE, ENV
+from ai_video_editor.utils.conf import DOTENV_PATH, ENV
 
 REPO_HOME = "/app"
 VOLUME_DIR = "/volume"
@@ -18,10 +18,10 @@ volumes = {
     VOLUME_DIR: volume,
     S3_VIDEO_PATH: S3Mount(
         os.environ.get("TRIMIT_VIDEO_S3_BUCKET", ''),
-        secret=Secret.from_dotenv(path=DOTENV_FILE),
+        secret=Secret.from_dotenv(path=DOTENV_PATH),
         read_only=True)
 }
-stub = Stub(VIDEO_LLAVA_STUB_NAME, mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv(path=DOTENV_FILE)])
+stub = Stub(VIDEO_LLAVA_STUB_NAME, mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv(path=DOTENV_PATH)])
 
 
 def remove_old_files():
