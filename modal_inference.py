@@ -1,8 +1,11 @@
 import os
+import shutil
 import urllib
 
 from modal import asgi_app, method, enter, build
-from .image import S3_VIDEO_PATH, MODEL_CACHE, cls_dec, function_dec, volume, stub
+from ai_video_editor.utils.fs_utils import async_copy_from_s3
+from .image import LOCAL_VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, local_volume
+from ai_video_editor.stub import stub, S3_VIDEO_PATH, VOLUME_DIR, volume as remote_volume
 from pathlib import Path
 # for local testing
 #S3_VIDEO_PATH= "s3_videos"
@@ -12,11 +15,12 @@ VIDEOS_DIR = Path(S3_VIDEO_PATH) / "videos"
 IMAGES_DIR = Path(S3_VIDEO_PATH) / "images"
 
 
+
 @cls_dec(gpu="any")
 class VideoLlavaModel:
-    @build()
     @enter()
     def load_model(self):
+        local_volume.reload()
         import torch
         from videollava.serve.gradio_utils import Chat
         self.conv_mode = "llava_v1"
@@ -29,8 +33,32 @@ class VideoLlavaModel:
         print("model loaded")
         # self.handler.model.to(dtype=self.dtype)
 
+    def copy_file_from_remote_volume(self, filepath):
+        in_volume_path = filepath.split('/', 2)[-1]
+        local_volume_path = Path(LOCAL_VOLUME_DIR) / in_volume_path
+        local_volume_path.parent.mkdir(parents=True, exist_ok=True)
+        if not local_volume_path.exists():
+            shutil.copy(filepath, str(local_volume_path))
+
+    async def copy_file_from_s3(self, filepath):
+        bucket, in_bucket_path = filepath.replace('s3://','').split('/', 1)
+        await async_copy_from_s3(bucket, in_bucket_path, str(Path(VOLUME_DIR) / in_bucket_path))
+
+    async def copy_file_to_local(self, filepath):
+        if not filepath:
+            return
+        if filepath.startswith('s3://'):
+            await self.copy_file_from_s3(filepath)
+        else:
+            self.copy_file_from_remote_volume(filepath)
+
     @method()
-    def generate(self, image1, video, textbox_in):
+    async def generate(self, image1, video, textbox_in):
+        remote_volume.reload()
+        local_volume.reload()
+        await self.copy_file_to_local(image1)
+        await self.copy_file_to_local(video)
+
         from videollava.conversation import conv_templates
         from videollava.constants import DEFAULT_IMAGE_TOKEN
         if not textbox_in:
@@ -97,12 +125,13 @@ def fastapi_app():
     async def upload(
         file: UploadFile = File(...),
     ):
+        local_volume.reload()
         filename_decoded = urllib.parse.unquote(file.filename)
-        file_path = str(VIDEOS_DIR / filename_decoded)
+        file_path = str(Path(LOCAL_VOLUME_DIR) / filename_decoded)
         async with aiofiles.open(file_path, "wb") as buffer:
             while content := await file.read(1024):  # Read chunks of 1024 bytes
                 await buffer.write(content)
-        volume.commit()
+        local_volume.commit()
         return {"file_path": file_path}
 
     @app.post("/inference")

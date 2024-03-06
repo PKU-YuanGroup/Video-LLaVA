@@ -1,27 +1,20 @@
-from modal import Volume, Image, Stub, Mount, Secret, S3Mount
+from modal import Volume, Image, Mount
 import os
 from pathlib import Path
-from ai_video_editor.utils.conf import DOTENV_PATH, ENV
+from ai_video_editor.stub import stub, REPO_HOME, LOCAL_CERT_PATH, CERT_PATH, EXTRA_ENV
 
-REPO_HOME = "/app"
-VOLUME_DIR = "/volume"
-MODELS_DIR = "/root"
-HF_DATASETS_CACHE = str(Path(VOLUME_DIR) / "hf_datasets_cache")
-MODEL_CACHE = Path(VOLUME_DIR, "models")
-S3_VIDEO_PATH = "/s3-videos"
-VIDEO_LLAVA_STUB_NAME = f"video-llava-{ENV}"
-mounts = [
+LOCAL_VOLUME_DIR = "/video_llava_volume"
+HF_DATASETS_CACHE = str(Path(LOCAL_VOLUME_DIR) / "hf_datasets_cache")
+MODEL_CACHE = Path(LOCAL_VOLUME_DIR, "models")
+
+LOCAL_VOLUME_NAME = "video-llava-volume"
+local_volume = Volume.from_name(LOCAL_VOLUME_NAME, create_if_missing=True)
+local_volumes = {
+    LOCAL_VOLUME_DIR: local_volume,
+}
+local_mounts = [
     Mount.from_local_dir("./ai_video_editor/video_llava", remote_path=REPO_HOME),
 ]
-volume = Volume.persisted("video-llava-vol")
-volumes = {
-    VOLUME_DIR: volume,
-    S3_VIDEO_PATH: S3Mount(
-        os.environ.get("TRIMIT_VIDEO_S3_BUCKET", ''),
-        secret=Secret.from_dotenv(path=DOTENV_PATH),
-        read_only=True)
-}
-stub = Stub(VIDEO_LLAVA_STUB_NAME, mounts=mounts, volumes=volumes, secrets=[Secret.from_dotenv(path=DOTENV_PATH)])
 
 
 def remove_old_files():
@@ -75,8 +68,12 @@ image = (
     )
     .pip_install(
         "aiofiles",
+        "aioboto3",
     )
     .run_function(remove_old_files)
+    .copy_local_file(LOCAL_CERT_PATH, CERT_PATH)
+    .pip_install("boto3", "aioboto3")
+    .env(EXTRA_ENV)
 )
 # TODO bitsandbytes seems to not be working with gpu
 
@@ -87,6 +84,8 @@ def function_dec(**extras):
         # checkpointing doesn't work because it restricts internet access
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
         _allow_background_volume_commits=True,
+        volumes=local_volumes,
+        mounts=local_mounts,
         **extras,
     )
 
@@ -96,5 +95,8 @@ def cls_dec(**extras):
         timeout=80000,
         # checkpointing doesn't work because it restricts internet access
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
+        _allow_background_volume_commits=True,
+        volumes=local_volumes,
+        mounts=local_mounts,
         **extras,
     )
