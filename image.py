@@ -84,6 +84,7 @@ def function_dec(**extras):
         # checkpointing doesn't work because it restricts internet access
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
         _allow_background_volume_commits=True,
+        container_idle_timeout=120,
         volumes=local_volumes,
         mounts=local_mounts,
         **extras,
@@ -95,6 +96,7 @@ def cls_dec(**extras):
         timeout=80000,
         # checkpointing doesn't work because it restricts internet access
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
+        container_idle_timeout=120,
         _allow_background_volume_commits=True,
         volumes=local_volumes,
         mounts=local_mounts,
