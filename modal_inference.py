@@ -6,6 +6,7 @@ from modal import asgi_app, method, enter, build
 from ai_video_editor.utils.fs_utils import async_copy_from_s3
 from .image import LOCAL_VOLUME_DIR, MODEL_CACHE, cls_dec, function_dec, local_volume
 from ai_video_editor.stub import stub, S3_VIDEO_PATH, VOLUME_DIR, volume as remote_volume
+import diskcache as dc
 from pathlib import Path
 # for local testing
 #S3_VIDEO_PATH= "s3_videos"
@@ -19,7 +20,8 @@ IMAGES_DIR = Path(S3_VIDEO_PATH) / "images"
 @cls_dec(gpu="any")
 class VideoLlavaModel:
     @enter()
-    def load_model(self):
+    def load_model(self, cache=None):
+        self.cache = cache or dc.Cache('.cache')
         local_volume.reload()
         import torch
         from videollava.serve.gradio_utils import Chat
@@ -30,7 +32,6 @@ class VideoLlavaModel:
         load_4bit = True
         self.dtype = torch.float16
         self.handler = Chat(model_path, conv_mode=self.conv_mode, load_8bit=load_8bit, load_4bit=load_4bit, device=device, cache_dir=str(MODEL_CACHE))
-        print("model loaded")
         # self.handler.model.to(dtype=self.dtype)
 
     def copy_file_from_remote_volume(self, filepath):
@@ -53,7 +54,12 @@ class VideoLlavaModel:
             self.copy_file_from_remote_volume(filepath)
 
     @method()
-    async def generate(self, image1, video, textbox_in):
+    async def generate(self, image1, video, textbox_in, use_existing_output=True):
+        inputs = (image1, video, textbox_in)
+        if inputs in self.cache and use_existing_output:
+            res = self.cache[inputs]
+            self.cache.close()
+            return res
         remote_volume.reload()
         local_volume.reload()
         await self.copy_file_to_local(image1)
@@ -106,6 +112,8 @@ class VideoLlavaModel:
         text_en_out = text_en_out.split('#')[0]
         textbox_out = text_en_out
 
+        self.cache.set(inputs, textbox_out)
+        self.cache.close()
         return textbox_out
 
 

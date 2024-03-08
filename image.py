@@ -74,6 +74,7 @@ image = (
     .copy_local_file(LOCAL_CERT_PATH, CERT_PATH)
     .pip_install("boto3", "aioboto3")
     .env(EXTRA_ENV)
+    .pip_install("diskcache")
 )
 # TODO bitsandbytes seems to not be working with gpu
 
