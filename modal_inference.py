@@ -20,8 +20,8 @@ IMAGES_DIR = Path(S3_VIDEO_PATH) / "images"
 @cls_dec(gpu="any")
 class VideoLlavaModel:
     @enter()
-    def load_model(self, cache=None):
-        self.cache = cache or dc.Cache('.cache')
+    def load_model(self):
+        self.cache = dc.Cache('.cache')
         local_volume.reload()
         import torch
         from videollava.serve.gradio_utils import Chat
