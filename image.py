@@ -97,7 +97,9 @@ def cls_dec(**extras):
         timeout=80000,
         # checkpointing doesn't work because it restricts internet access
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
-        container_idle_timeout=120,
+        container_idle_timeout=1200,
+        # TODO maybe turn on
+        #allow_concurrent_inputs=2,
         _allow_background_volume_commits=True,
         volumes=local_volumes,
         mounts=local_mounts,
