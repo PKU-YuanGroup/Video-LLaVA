@@ -106,12 +106,13 @@ class VideoLlavaModel:
         else:
             print("WARNING: No image or video supplied")
 
-        print(text_en_in)
         text_en_out, _ = self.handler.generate(images_tensor, text_en_in, first_run=True, state=state_)
 
         text_en_out = text_en_out.split('#')[0]
         textbox_out = text_en_out
 
+        if not textbox_out:
+            raise ValueError("no text generated")
         self.cache.set(inputs, textbox_out)
         self.cache.close()
         return textbox_out

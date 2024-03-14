@@ -99,7 +99,8 @@ def cls_dec(**extras):
         #checkpointing_enabled=True,  # Enable memory checkpointing for faster cold starts.
         container_idle_timeout=1200,
         # TODO maybe turn on
-        #allow_concurrent_inputs=2,
+        allow_concurrent_inputs=4,
+        retries=3,
         _allow_background_volume_commits=True,
         volumes=local_volumes,
         mounts=local_mounts,
