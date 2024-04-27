@@ -357,7 +357,17 @@ conv_llava_v1_mmtag = Conversation(
     version="v1_mmtag",
 )
 
-default_conversation = conv_vicuna_v1
+conv_llama3 = Conversation(
+    system="""<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nA chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.""",
+    roles=("<|start_header_id|>user<|end_header_id|>\n\n", "<|start_header_id|>assistant<|end_header_id|>\n\n"),
+    version="llama3",
+    messages=(),
+    offset=0,
+    sep_style=SeparatorStyle.MPT,
+    sep="<|eot_id|>",
+)
+
+default_conversation = conv_llama3
 conv_templates = {
     "default": conv_vicuna_v0,
     "v0": conv_vicuna_v0,
@@ -372,6 +382,7 @@ conv_templates = {
     "llava_v1": conv_llava_v1,
     "v1_mmtag": conv_llava_v1_mmtag,
     "llava_llama_2": conv_llava_llama_2,
+    "llama3": conv_llama3,
 
     "mpt": conv_mpt,
 }

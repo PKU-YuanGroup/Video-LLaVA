@@ -66,6 +66,7 @@ class LlavaLlamaForCausalLM(LlamaForCausalLM, LlavaMetaForCausalLM):
         output_hidden_states: Optional[bool] = None,
         images: Optional[torch.FloatTensor] = None,
         return_dict: Optional[bool] = None,
+        cache_position = None,  # Required for inference
     ) -> Union[Tuple, CausalLMOutputWithPast]:
 
         if inputs_embeds is None:
