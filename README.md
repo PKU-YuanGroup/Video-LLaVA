@@ -53,6 +53,7 @@
 
 
 ## 📰 News
+* **[2024.05.15]**  🤝🤝🤝 Thanks to the generous contributions of [@zucchini-nlp](https://github.com/zucchini-nlp), Video-LLaVa now available in the Transformers library! More details [here](https://github.com/PKU-YuanGroup/Video-LLaVA/issues/156).
 * **[2024.01.27]**  👀👀👀 Our [MoE-LLaVA](https://github.com/PKU-YuanGroup/MoE-LLaVA) is released! A sparse model with 3B parameters outperformed the dense model with 7B parameters.
 * **[2024.01.17]**  🔥🔥🔥 Our [LanguageBind](https://github.com/PKU-YuanGroup/LanguageBind) has been accepted at ICLR 2024!
 * **[2024.01.16]**  🔥🔥🔥 We reorganize the code and support LoRA fine-tuning, checking [finetune_lora.sh](scripts/v1_5/finetune_lora.sh).
@@ -131,6 +132,59 @@ pip install decord opencv-python git+https://github.com/facebookresearch/pytorch
 ```
 
 ## 🤖 API
+
+> [!Warning]
+> <div align="left">
+> <b>
+> 🚨 Upgrade transformers for quick access.
+> </b>
+> </div>
+
+```
+pip install -U transformers
+```
+
+```
+import av
+import numpy as n
+from transformers import VideoLlavaProcessor, VideoLlavaForConditionalGeneration
+
+def read_video_pyav(container, indices):
+    frames = []
+    container.seek(0)
+    start_index = indices[0]
+    end_index = indices[-1]
+    for i, frame in enumerate(container.decode(video=0)):
+        if i > end_index:
+            break
+        if i >= start_index and i in indices:
+            frames.append(frame)
+    return np.stack([x.to_ndarray(format="rgb24") for x in frames])
+
+
+model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-LLaVA-7B-hf")
+processor = VideoLlavaProcessor.from_pretrained("LanguageBind/Video-LLaVA-7B-hf")
+
+prompt = "USER: <video>Why is this video funny? ASSISTANT:"
+video_path = "YOUR-LOCAL-VIDEO-PATH
+container = av.open(video_path)
+
+# sample uniformly 8 frames from the video
+total_frames = container.streams.video[0].frames
+indices = np.arange(0, total_frames, total_frames / 8).astype(int)
+clip = read_video_pyav(container, indices)
+
+inputs = processor(text=prompt, videos=clip, return_tensors="pt")
+
+# Generate
+generate_ids = model.generate(**inputs, max_length=80)
+print(processor.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0])
+>>> 'USER:  Why is this video funny? ASSISTANT: The video is funny because the baby is sitting on the bed and reading a book, which is an unusual and amusing sight.'
+```
+
+<details>
+<summary>outdated</summary>
+    
 **We open source all codes.** If you want to load the model (e.g. ```LanguageBind/Video-LLaVA-7B```) on local, you can use the following code snippets.
 
 ### Inference for image
@@ -246,6 +300,7 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+</details>
 
 ## 🗝️ Training & Validating
 The training & validating instruction is in [TRAIN_AND_VALIDATE.md](TRAIN_AND_VALIDATE.md).
