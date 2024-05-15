@@ -36,7 +36,10 @@
 
 <details open><summary>💡 I also have other video-language projects that may interest you ✨. </summary><p>
 <!--  may -->
-
+    
+> [**Open-Sora-Plan**](https://github.com/PKU-YuanGroup/Open-Sora-Plan) <br>
+[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Open-Sora-Plan)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Open-Sora-Plan.svg?style=social)](https://github.com/PKU-YuanGroup/Open-Sora-Plan) <br>
+    
 > [**MoE-LLaVA: Mixture of Experts for Large Vision-Language Models**](https://arxiv.org/abs/2401.15947) <br>
 > Bin Lin, Zhenyu Tang, Yang Ye, Jiaxi Cui, Bin Zhu, Peng Jin, Junwu Zhang, Munan Ning, Li Yuan <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/MoE-LLaVA)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/MoE-LLaVA.svg?style=social)](https://github.com/PKU-YuanGroup/MoE-LLaVA)  [![arXiv](https://img.shields.io/badge/Arxiv-2401.15947-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2401.15947) <br>
@@ -45,9 +48,11 @@
 > Bin Zhu, Bin Lin, Munan Ning, Yang Yan, Jiaxi Cui, HongFa Wang, Yatian Pang, Wenhao Jiang, Junwu Zhang, Zongwei Li, Wancai Zhang, Zhifeng Li, Wei Liu, Li Yuan <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/LanguageBind)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/LanguageBind.svg?style=social)](https://github.com/PKU-YuanGroup/LanguageBind)  [![arXiv](https://img.shields.io/badge/Arxiv-2310.01852-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2310.01852) <br>
 
+<!--
 > [**Video-Bench: A Comprehensive Benchmark and Toolkit for Evaluating Video-based Large Language Models**](https://arxiv.org/abs/2311.08046) <br>
 > Munan Ning, Bin Zhu, Yujia Xie, Bin Lin, Jiaxi Cui, Lu Yuan, Dongdong Chen, Li Yuan <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Video-Bench)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Video-Bench.svg?style=social)](https://github.com/PKU-YuanGroup/Video-Bench)  [![arXiv](https://img.shields.io/badge/Arxiv-2311.16103-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2311.16103) <br>
+-->
 
 </p></details>
 
