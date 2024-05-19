@@ -151,7 +151,7 @@ pip install -U transformers
 
 ```
 import av
-import numpy as n
+import numpy as np
 from transformers import VideoLlavaProcessor, VideoLlavaForConditionalGeneration
 
 def read_video_pyav(container, indices):
