@@ -147,11 +147,17 @@ pip install decord opencv-python git+https://github.com/facebookresearch/pytorch
 
 ```
 pip install -U transformers
+
+```
+If you need to install `av` then do
+```
+python -m pip install av
+
 ```
 
 ```
 import av
-import numpy as n
+import numpy as np
 from transformers import VideoLlavaProcessor, VideoLlavaForConditionalGeneration
 
 def read_video_pyav(container, indices):
@@ -171,7 +177,7 @@ model = VideoLlavaForConditionalGeneration.from_pretrained("LanguageBind/Video-L
 processor = VideoLlavaProcessor.from_pretrained("LanguageBind/Video-LLaVA-7B-hf")
 
 prompt = "USER: <video>Why is this video funny? ASSISTANT:"
-video_path = "YOUR-LOCAL-VIDEO-PATH
+video_path = "YOUR-LOCAL-VIDEO-PATH"
 container = av.open(video_path)
 
 # sample uniformly 8 frames from the video
