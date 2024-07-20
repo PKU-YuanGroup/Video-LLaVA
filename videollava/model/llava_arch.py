@@ -204,7 +204,7 @@ class LlavaMetaForCausalLM(ABC):
                 tmp_image_features[pos] = image_features_minibatch[i]
 
         if getattr(videos_minibatch, 'ndim', 0) == 5:  # batch consists of videos, [mini_b, c, t, h, w]
-            video_features_minibatch = self.encode_videos(videos_minibatch)  # fake list [mini_b, t, l, c]
+            video_features_minibatch = self.encode_videos(videos_minibatch).to(input_ids.device)  # fake list [mini_b, t, l, c]
             for i, pos in enumerate(video_idx):
                 t = video_features_minibatch[i].shape[0]
                 tmp_image_features[pos] = [video_features_minibatch[i][j] for j in range(t)]
