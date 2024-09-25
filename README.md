@@ -58,6 +58,8 @@
 
 
 ## 📰 News
+
+* **[2024.09.25]** 🔥🔥🔥 Our Video-LLaVA has been accepted at EMNLP 2024! We earn the meta score of 4.
 * **[2024.07.27]**  🔥🔥🔥 A fine-tuned [Video-LLaVA](https://github.com/mfarre/Video-LLaVA-7B-hf-CinePile) focuses on theme exploration, narrative analysis, and character dynamics. Thanks to [@micuelll](https://x.com/micuelll/status/1816851392134586540).
  , CinePile addresses these overlooked areas with fine-tuning Video-LLaVA in their benchmark.
 * **[2024.05.15]**  🤝🤝🤝 Thanks to the generous contributions of [@zucchini-nlp](https://github.com/zucchini-nlp), Video-LLaVa now available in the Transformers library! More details [here](https://github.com/PKU-YuanGroup/Video-LLaVA/issues/156).
