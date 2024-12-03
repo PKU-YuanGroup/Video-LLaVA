@@ -37,8 +37,9 @@
 <details open><summary>💡 I also have other video-language projects that may interest you ✨. </summary><p>
 <!--  may -->
     
-> [**Open-Sora-Plan**](https://github.com/PKU-YuanGroup/Open-Sora-Plan) <br>
-[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Open-Sora-Plan)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Open-Sora-Plan.svg?style=social)](https://github.com/PKU-YuanGroup/Open-Sora-Plan) <br>
+> [**Open-Sora Plan: Open-Source Large Video Generation Model**](https://github.com/PKU-YuanGroup/Open-Sora-Plan) <br>
+> Bin Lin and Yunyang Ge and Xinhua Cheng and Zongjian Li and Bin Zhu and Shaodong Wang and Xianyi He and Yang Ye and Shenghai Yuan and Liuhan Chen and Tanghui Jia and Junwu Zhang and Zhenyu Tang and Yatian Pang and Bin She and Cen Yan and Zhiheng Hu and Xiaoyi Dong and Lin Chen and Zhang Pan and Xing Zhou and Shaoling Dong and Yonghong Tian and Li Yuan <br>
+[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Open-Sora-Plan)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Open-Sora-Plan.svg?style=social)](https://github.com/PKU-YuanGroup/Open-Sora-Plan) [![arXiv](https://img.shields.io/badge/Arxiv-2412.00131-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2412.00131) <br>
     
 > [**MoE-LLaVA: Mixture of Experts for Large Vision-Language Models**](https://arxiv.org/abs/2401.15947) <br>
 > Bin Lin, Zhenyu Tang, Yang Ye, Jiaxi Cui, Bin Zhu, Peng Jin, Junwu Zhang, Munan Ning, Li Yuan <br>
